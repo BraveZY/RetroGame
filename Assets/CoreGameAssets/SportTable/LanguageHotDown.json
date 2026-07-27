@@ -1,0 +1,62 @@
+﻿[
+  {
+    "ID": "1120",
+    "SimplifiedChinese": "提示",
+    "TraditionalChinese": "提示",
+    "English": "Tip",
+    "German": "Tipp",
+    "Russian": "Подсказка",
+    "French": "Astuce",
+    "Korean": "팁",
+    "Japanese": "ヒント",
+    "Spanish": "Consejo",
+    "Portuguese": "Dica de jogo",
+    "Italian": "Consiglio",
+    "Arab": "Tip"
+  },
+  {
+    "ID": "1121",
+    "SimplifiedChinese": "网络连接不稳定\n更新失败",
+    "TraditionalChinese": "網路連線不穩定\n更新失敗",
+    "English": "Unstable network connection\nUpdate failed",
+    "German": "Unstabile Netzwerkverbindung\nUpdate fehlgeschlagen",
+    "Russian": "Нестабильное соединение\nОбновление не удалось",
+    "French": "Connexion réseau instable\nMise à jour échouée",
+    "Korean": "네트워크 연결 불안정\n업데이트 실패",
+    "Japanese": "ネットワーク接続不安定\nアップデート失敗",
+    "Spanish": "Conexión de red inestable\nLa actualización falló",
+    "Portuguese": "Conexão de rede instável\nAtualização falhou",
+    "Italian": "Connessione di rete instabile\nAggiornamento fallito",
+    "Arab": "Unstable network connection\nUpdate failed"
+  },
+  {
+    "ID": "1122",
+    "SimplifiedChinese": "确定",
+    "TraditionalChinese": "OK",
+    "English": "OK",
+    "German": "OK",
+    "Russian": "OK",
+    "French": "OK",
+    "Korean": "OK",
+    "Japanese": "OK",
+    "Spanish": "OK",
+    "Portuguese": "OK",
+    "Italian": "OK",
+    "Arab": "OK"
+  },
+  {
+    "ID": "124",
+    "SimplifiedChinese": "请下载完整资源包，\n再尝试离线游戏。",
+    "TraditionalChinese": "請下載完整資源包，\n再嘗試離線遊戲。",
+    "English": "Please download the full resource pack\n before trying the offline game.",
+    "German": "Lade bitte das volle Ressourcenpaket herunter,\n bevor du das Offline-Spiel ausprobierst.",
+    "Russian": "Скачайте полный пакет ресурсов, \nзатем попробуйте играть в оффлайн-игру.",
+    "French": "Téléchargez le paquet de ressources complet \navant de tester le jeu hors ligne.",
+    "Korean": "완전한 자원 팩을 다운로드한 후\n오프라인 게임을试해 보세요.",
+    "Japanese": "完全なリソースパックをダウンロードしてから、\nオフラインゲームを試してみてください。",
+    "Spanish": "Descarga el paquete completo de recursos\n antes de probar el juego sin conexión.",
+    "Portuguese": "Faça o download do pacote de recursos \ncompleto antes de tentar o jogo offline.",
+    "Italian": "Scarica il pacchetto di risorse completo\n prima di provare il gioco offline.",
+    "Arab": "Please download the full resource pack\n before trying the offline game."
+  }
+]

@@ -1,0 +1,302 @@
+[
+  {
+    "id": 1,
+    "English": {
+      "name": "Pipe Bird",
+      "desc": "Move the head up and down to control the bird's flight height and avoid the pipes."
+    },
+    "ChineseSimplified": {
+      "name": "水管小鸟",
+      "desc": "上下移动头部，控制小鸟飞行高度，躲避水管。"
+    },
+    "ChineseTraditional": {
+      "name": "水管小鳥",
+      "desc": "上下移動頭部，控制小鳥飛行高度，躲避水管。"
+    }
+  },
+  {
+    "id": 2,
+    "English": {
+      "name": "Gold Miner",
+      "desc": "Aim at the location of the ore and squat to fire the grappling hook."
+    },
+    "ChineseSimplified": {
+      "name": "黄金矿工",
+      "desc": "看准矿石位置，下蹲发射抓钩"
+    },
+    "ChineseTraditional": {
+      "name": "黄金礦工",
+      "desc": "看準礦石位置，下蹲發射抓鉤。"
+    }
+  },
+  {
+    "id": 3,
+    "English": {
+      "name": "Cut the Fruit",
+      "desc": "Swipe your finger across to slice the fruits. The more combos you make, the higher your score will be. Be careful not to hit the bombs!"
+    },
+    "ChineseSimplified": {
+      "name": "切水果",
+      "desc": "单手划过切开水果，连击越多得分越高。注意，不要切中炸弹！"
+    },
+    "ChineseTraditional": {
+      "name": "切水果",
+      "desc": "单手劃過切開水果，連擊越多得分越高。注意，不要切中炸彈！"
+    }
+  },
+  {
+    "id": 4,
+    "English": {
+      "name": "Whack-A-Mole",
+      "desc": "Watch out for the moles and hit them with the punch mitt. Be careful not to hit the bombs!"
+    },
+    "ChineseSimplified": {
+      "name": "打地鼠",
+      "desc": "看准地鼠，用拳套敲击。注意，不要击打炸弹！"
+    },
+    "ChineseTraditional": {
+      "name": "打地鼠",
+      "desc": "看準地鼠，用拳套敲擊。注意，不要擊打炸彈！"
+    }
+  },
+  {
+    "id": 5,
+    "English": {
+      "name": "Start",
+      "desc": ""
+    },
+    "ChineseSimplified": {
+      "name": "开始游戏",
+      "desc": ""
+    },
+    "ChineseTraditional": {
+      "name": "開始遊戲",
+      "desc": ""
+    }
+  },
+  {
+    "id": 6,
+    "English": {
+      "name": "Two-Player",
+      "desc": ""
+    },
+    "ChineseSimplified": {
+      "name": "双人模式",
+      "desc": ""
+    },
+    "ChineseTraditional": {
+      "name": "雙人模式",
+      "desc": ""
+    }
+  },
+  {
+    "id": 7,
+    "English": {
+      "name": "Paused",
+      "desc": ""
+    },
+    "ChineseSimplified": {
+      "name": "暂停中",
+      "desc": ""
+    },
+    "ChineseTraditional": {
+      "name": "暫停中",
+      "desc": ""
+    }
+  },
+  {
+    "id": 8,
+    "English": {
+      "name": "Exit Game",
+      "desc": ""
+    },
+    "ChineseSimplified": {
+      "name": "退出游戏",
+      "desc": ""
+    },
+    "ChineseTraditional": {
+      "name": "退出遊戲",
+      "desc": ""
+    }
+  },
+  {
+    "id": 9,
+    "English": {
+      "name": "Cancel",
+      "desc": ""
+    },
+    "ChineseSimplified": {
+      "name": "取消",
+      "desc": ""
+    },
+    "ChineseTraditional": {
+      "name": "取消",
+      "desc": ""
+    }
+  },
+  {
+    "id": 10,
+    "English": {
+      "name": "Confirm",
+      "desc": ""
+    },
+    "ChineseSimplified": {
+      "name": "确认",
+      "desc": ""
+    },
+    "ChineseTraditional": {
+      "name": "確認",
+      "desc": ""
+    }
+  },
+  {
+    "id": 11,
+    "English": {
+      "name": "Share",
+      "desc": ""
+    },
+    "ChineseSimplified": {
+      "name": "分享炫耀",
+      "desc": ""
+    },
+    "ChineseTraditional": {
+      "name": "分享炫耀",
+      "desc": ""
+    }
+  },
+  {
+    "id": 12,
+    "English": {
+      "name": "Resume",
+      "desc": ""
+    },
+    "ChineseSimplified": {
+      "name": "继续游戏",
+      "desc": ""
+    },
+    "ChineseTraditional": {
+      "name": "繼續遊戲",
+      "desc": ""
+    }
+  },
+  {
+    "id": 13,
+    "English": {
+      "name": "Main Menu",
+      "desc": ""
+    },
+    "ChineseSimplified": {
+      "name": "回到乐园",
+      "desc": ""
+    },
+    "ChineseTraditional": {
+      "name": "回到樂園",
+      "desc": ""
+    }
+  },
+  {
+    "id": 14,
+    "English": {
+      "name": "Crazy Cave",
+      "desc": "Control the miner by moving left and right, and jump to release the ultimate skill when the energy bar is full."
+    },
+    "ChineseSimplified": {
+      "name": "疯狂洞穴",
+      "desc": "左右移动控制矿工，必杀技能量槽满时跳跃释放。"
+    },
+    "ChineseTraditional": {
+      "name": "瘋狂洞穴",
+      "desc": "左右移動控制礦工，必殺技能量槽滿時跳躍釋放。！"
+    }
+  },
+  {
+    "id": 15,
+    "English": {
+      "name": "Fruit Merging",
+      "desc": "Move left and right to control the position of the fruit; squat or throw down with both hands to put down the fruit."
+    },
+    "ChineseSimplified": {
+      "name": "合成大西瓜",
+      "desc": "左右移动控制水果位置，下蹲或双手向下扔，放下水果。"
+    },
+    "ChineseTraditional": {
+      "name": "合成大西瓜",
+      "desc": "左右移動控制水果位置；下蹲或雙手向下扔，放下水果。"
+    }
+  },
+  {
+    "id": 16,
+    "English": {
+      "name": "Space Flight",
+      "desc": "Move left and right to control the astronaut's direction"
+    },
+    "ChineseSimplified": {
+      "name": "太空飞行",
+      "desc": "左右移动来控制宇航员的方向"
+    },
+    "ChineseTraditional": {
+      "name": "太空飛行",
+      "desc": "左右移動來控制宇航員的方向"
+    }
+  },
+  {
+    "id": 17,
+    "English": {
+      "name": "Kill Calories",
+      "desc": "Move left and right to control the character`s position; lift both hands above the head to lift the barbell plates; then throw down with both hands to release them."
+    },
+    "ChineseSimplified": {
+      "name": "消灭卡路里",
+      "desc": "左右移动控制角色位置；双手举过头顶，控制角色举起杠铃片；然后双手向下扔，丢出杠铃片。"
+    },
+    "ChineseTraditional": {
+      "name": "消滅卡路里",
+      "desc": "左右移動控制角色位置；雙手舉過頭頂，控制角色舉起杠鈴片；然後雙手向下丟，丟出杠鈴片。"
+    }
+  },
+  {
+    "id": 18,
+    "English": {
+      "name": "Please stand 1.5 meters in front of the sports mirror and raise your hands horizontally to start the game",
+      "desc": ""
+    },
+    "ChineseSimplified": {
+      "name": "请站在运动镜前1.5米，平举双手启动游戏",
+      "desc": ""
+    },
+    "ChineseTraditional": {
+      "name": "請站在運動鏡前1.5米，平舉雙手啓動遊戲",
+      "desc": ""
+    }
+  },
+  {
+    "id": 19,
+    "English": {
+      "name": "BEST：",
+      "desc": ""
+    },
+    "ChineseSimplified": {
+      "name": "最高分：",
+      "desc": ""
+    },
+    "ChineseTraditional": {
+      "name": "最高分：",
+      "desc": ""
+    }
+  },
+  {
+    "id": 20,
+    "English": {
+      "name": "New Record",
+      "desc": ""
+    },
+    "ChineseSimplified": {
+      "name": "新纪录",
+      "desc": ""
+    },
+    "ChineseTraditional": {
+      "name": "新紀錄",
+      "desc": ""
+    }
+  }
+]

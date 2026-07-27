@@ -1,0 +1,21 @@
+{
+    "name": "AssemblyUpdateScriptsHOT",
+    "rootNamespace": "",
+    "references": [
+        "GUID:8552293f93f4b184fb854cad4dbcd03e",
+        "GUID:68765d262e2128e4ab49c983f3411946",
+        "GUID:cdebe4819f538da41b40ff2ddd5f4de0",
+        "GUID:beddcd9d0597bda4fa4e1666d38719f3",
+        "GUID:d0a9188df0210481c8f1832d712ad72f",
+        "GUID:6b393461c8f7841d48b29aac7eaa2592"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

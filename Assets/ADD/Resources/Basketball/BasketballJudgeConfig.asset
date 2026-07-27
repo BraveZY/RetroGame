@@ -1,0 +1,100 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8dfd0ac8fbded45cb8da366b681f0ca5, type: 3}
+  m_Name: BasketballJudgeConfig
+  m_EditorClassIdentifier: 
+  config:
+    input:
+      trackingConfidenceThreshold: 0.45
+      horizontalDeadZone: 0.035
+      horizontalMaxOffset: 0.18
+      horizontalMappingMultiplier: 0.85
+      singlePlayerBaseMultiplier: 2.4
+      dualPlayerBaseMultiplier: 1.2
+      dualPlayerScreenOffset: 240
+      screenWidthFallback: 1920
+      arcInputDeadZone: 0.08
+      sprintVelocityThreshold: 0.65
+      crouchThreshold: 0.8
+      drivePoseThreshold: 0.22
+      contestWristRaiseMargin: 0.03
+      lostTrackingHoldSeconds: 0.2
+    windows:
+      jumpShootMin: 0.15
+      jumpShootMax: 0.5
+      contestHalfWindow: 0.15
+    score:
+      closeDistanceThreshold: 2.5
+      midDistanceThreshold: 4.6
+      distBaseClose: 78
+      distBaseMid: 62
+      distBaseFar: 54
+      aimPerfect: 12
+      aimGood: 4
+      aimBad: -10
+      aimWorst: -30
+      defenseHandsUpPenalty: 12
+      defenseFullBlockPenalty: 24
+      defenseMaxPenalty: 34
+      swishThreshold: 84
+      rimInThreshold: 64
+      rimOutThreshold: 45
+    visual:
+      defaultArcHeight: 1.5
+      defaultFlightDuration: 0.6
+      rimOffsetRadius: 0.15
+      swishOffsetRadius: 0.05
+      blockJumpStartNormalizedTime: 0.21
+      blockJumpEndNormalizedTime: 0.44
+      blockJumpHeight: 0.38
+    ai:
+      reactionDelay: 0.45
+      contestRange: 0.7
+      defenseFollowDistance: 1
+      enableActiveContest: 0
+      enableActiveBlock: 0
+      defenseProfile:
+        skillLevel: 0.42
+        judgmentStrengthScale: 0.385
+        enableAnticipationMistakes: 1
+        noviceDecisionDelay: 0.22
+        eliteDecisionDelay: 0.08
+        noviceWrongSideChance: 0.546
+        eliteWrongSideChance: 0.156
+        repeatedChangeWrongSideBonus: 0.468
+        directionChangeMistakeWindow: 0.45
+        noviceWrongSideHoldDuration: 0.78
+        eliteWrongSideHoldDuration: 0.38
+        wrongSidePauseDuration: 0.48
+        steadyRunSnapTime: 0.14
+        stopCloseoutArcThreshold: 0.035
+        stopCloseoutFrontLead: 0.018
+        stopCloseoutSpeedScale: 1.1
+        noviceRecoverySpeedScale: 0.16
+        eliteRecoverySpeedScale: 0.31
+        steadyRunRecoveryScale: 0.86
+        noviceShadowAccuracy: 0.64
+        eliteShadowAccuracy: 0.9
+        noviceWrongSideCommitRatio: 0.48
+        eliteWrongSideCommitRatio: 0.22
+    action:
+      handsRaiseMargin: 0.03
+      shotJumpVelocityThreshold: 0.04
+      dunkJumpVelocityThreshold: 0.12
+      blockJumpVelocityThreshold: 0.08
+      breakthroughHorizontalVelocityThreshold: 0.18
+      triggerCooldown: 0.2
+    spawn:
+      attackerSpawnPosition: {x: 0, y: 0, z: 2.28}
+      attackerSpawnRotationY: 0
+      defenderSpawnPosition: {x: 0, y: 0, z: 3.71}
+      defenderSpawnRotationY: 180

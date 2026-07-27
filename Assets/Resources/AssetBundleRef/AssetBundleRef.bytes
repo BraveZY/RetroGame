@@ -1,0 +1,9 @@
+AssetName,AssetBundleName,Type
+CoreGameAMain,coregameamain,SceneAsset
+CoreGameInit,coregameinit,SceneAsset
+GameBegin,gamebegin,Prefab
+GameEnd,gameend,Prefab
+GameReadyTouch,gamereadytouch,Prefab
+GameSelModel,gameselmodel,Prefab
+GameSelRole,gameselrole,Prefab
+Tennis_Main,tennis_main,SceneAsset

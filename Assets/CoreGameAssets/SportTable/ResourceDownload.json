@@ -1,0 +1,12 @@
+﻿[
+  {
+    "SceneID": "publicres",
+    "PrefabsRes": "testpf",
+    "AtlasRes": "MainAtlas"
+  },
+  {
+    "SceneID": "coreGameamain",
+    "PrefabsRes": "0",
+    "AtlasRes": "CoreGameAMainAtlas"
+  }
+]

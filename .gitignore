@@ -1,0 +1,128 @@
+# This .gitignore file was generated based on best practices for Unity projects.
+
+# Unity generated folders
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+[Ll]ogs/
+[Mm]emoryCaptures/
+[Hh]ybridCLRData/
+# 代码评审/ - 允许代码评审目录被 Git 跟踪
+# keystore（密码android）/
+[Mm]y project_BurstDebugInformation_DoNotShip/
+[Mm]otionSport_URP(Unity 2021.3.43f1)_BurstDebugInformation_DoNotShip/
+# [Pp]ackages/
+UserSettings/Layouts/default-2021.dwlt
+ProjectSettings/PackageManagerSettings.asset
+ProjectSettings/ProjectVersion.txt
+ProjectSettings/AutoStreamingSettings.asset
+ProjectSettings/EditorBuildSettings.asset
+
+# Unity 自动修改的文件（使用 skip-worktree 处理）
+Packages/packages-lock.json
+# Packages/*/Editor/**/*.meta
+
+# UnityMCP client config writer 自动备份（写入前生成 <file>.bak.<UTC>，主文件已落盘后无需保留）
+*.bak.[0-9]*Z
+*.bak.[0-9]*Z.*
+
+# Visual Studio / MonoDevelop generated files
+*.csproj
+!Assets/Plugins/UnityMCP/Tools~/index-service/UnityMcp.IndexService.csproj
+*.unityproj
+*.sln
+*.suo
+*.tmp
+*.user
+*.userprefs
+*.pidb
+*.booproj
+*.svd
+*.pdb
+*.mdb
+*.opendb
+*.VC.db
+.vs/
+.vsconfig
+
+# Unity3D generated meta files
+*.pidb.meta
+*.pdb.meta
+*.mdb.meta
+
+# Unity3D generated file on crash reports
+sysinfo.txt
+
+# Builds
+*.apk
+*.aab
+*.unitypackage
+*.app
+[Aa]ssetBundles/
+
+# Crashlytics generated file
+crashlytics-build.properties
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Visual Studio Code
+.vscode/*
+!.vscode/
+!.vscode/mcp.json
+
+# Rider
+.idea/
+
+# Gradle
+.gradle/
+
+# Other IDEs/Editors
+# .cursor/ - 允许 Cursor 索引自己的配置目录（rules 和 commands）
+# .trae/ - 已纳入版本控制（Trae MCP/规则等）
+
+# Version Control
+.svn/
+
+# 显式允许上传 .dll 文件，覆盖全局忽略规则（但排除 HybridCLRData 目录）
+!*.dll
+[Hh]ybridCLRData/**/*.dll
+
+# OMC (Oh-My-ClaudeCode) 状态目录
+.omc/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+Assets/Plugins/UnityMCP/Tools~/stdio/.venv/
+Assets/_OTHER_Ban/Plugins3rd/ConsoleShow_ForUnity5.unitypackage.meta
+Assets/CoreGameAssets/Bowing_Assets/3DMode/Objects/bowling.obj.meta
+Assets/CoreGameAssets/Bowing_Assets/3DMode/Objects/gutter.obj.meta
+Assets/_OTHER_Ban/Plugins3rd/ConsoleShow_ForUnity5.unitypackage.meta
+Assets/CoreGameAssets/Bowing_Assets/3DMode/Objects/bowling.obj.meta
+Assets/CoreGameAssets/Bowing_Assets/3DMode/Objects/gutter.obj.meta
+ProjectSettings/PackageManagerSettings.asset
+ProjectSettings/ShaderGraphSettings.asset
+
+# 仅本地 Sisyphus 循环记录（避免污染 git 状态）
+
+# 忽略 .opencode 目录下的依赖与锁文件（本地 npm install 产物，勿提交）
+.opencode/node_modules/
+.opencode/package-lock.json
+Assets/Plugins/UnityMCP/Tools~/stdio/src/unity_mcp_stdio/unity_mcp_bridge.log
+
+# UnityMCP / 本地便笺：勿将 MCP 工具 JSON 或临时导出提交进仓库（同步见 Unity 菜单 Sync Cursor MCP Tool Descriptors 或插件内 sync_cursor_tools.sh → ~/.cursor/...）
+scratch/
+Assets/Plugins/UnityMCP/scratch/
+.trae/mcps/
+.gitnexus

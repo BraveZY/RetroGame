@@ -1,0 +1,42 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -220172785, guid: a006b3b7ae2d85c4fb98abb582fa2f04, type: 3}
+  m_Name: SystemSetting
+  m_EditorClassIdentifier: 
+  screenResolution:
+    width: 1920
+    height: 1080
+  cameraType: 2
+  detectModelType: 1
+  DeviceInfos:
+  - Name: default
+    Resolutions:
+    - width: 1920
+      height: 1440
+    - width: 1920
+      height: 1080
+    GameFPS: 60
+  - Name: 3576
+    Resolutions:
+    - width: 1920
+      height: 1440
+    - width: 1920
+      height: 1080
+    GameFPS: 60
+  - Name: 3566
+    Resolutions:
+    - width: 1280
+      height: 960
+    - width: 1280
+      height: 720
+    GameFPS: 30
+  cameraFPS: 30
