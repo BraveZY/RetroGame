@@ -1926,16 +1926,12 @@ MonoBehaviour:
   targetCanvas: {fileID: 230826587}
   showLandmarks: 1
   showSkeleton: 1
-  showTrails: 1
   landmarkSize: 8
   lineWidth: 3
-  trailWidth: 2
   landmarkColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   landmarkColor2: {r: 0, g: 1, b: 1, a: 1}
   skeletonColor: {r: 0, g: 1, b: 0, a: 1}
   skeletonColor2: {r: 0, g: 1, b: 1, a: 1}
-  trailLColor: {r: 0, g: 1, b: 1, a: 1}
-  trailRColor: {r: 1, g: 0, b: 1, a: 1}
   useFullScreen: 1
   displayWidth: 800
   displayHeight: 600
@@ -1954,19 +1950,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dataSourceManager: {fileID: 0}
   poseUIRenderer: {fileID: 0}
-  enableSmoothing: 0
-  minCutoff: 1
-  beta: 0.01
-  dCutoff: 1
-  autoStart: 1
-  latestResult:
-    success: 0
-    detected: 0
-    error: 
-    result:
-      landmarks: []
-    timestamp: 0
-    results: []
 --- !u!114 &1992589866
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1981,17 +1964,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sourceType: 0
   config:
-    sourceType: 0
-    playerMode: 1
-    httpApiUrl: http://127.0.0.1:8000
-    pollFPS: 30
-    timeout: 1
+    playerMode: 2
     sdkPollInterval: 33
     sdkUseCallback: 0
     sdkMaxSkeletons: 1
-  enableBuildTimeSwitch: 1
+    macYoloConfidenceThreshold: 0.35
+    macYoloMirror: 1
+  autoStart: 1
   allowRuntimeSwitch: 1
-  isInitialized: 0
 --- !u!114 &1992589867
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2004,11 +1984,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c95150c2871f477ba950bfd4303e437, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  autoStart: 1
-  allowRuntimeSwitch: 1
-  enableBuildTimeSwitch: 1
   addUIRenderer: 1
-  addSmoother: 1
   addCoordinateDisplay: 1
   addCoordinateRenderer: 1
 --- !u!4 &1992589868
