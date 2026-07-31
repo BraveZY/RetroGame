@@ -1,0 +1,7 @@
+interface:
+  display_name: "MotionX Retro Style DNA"
+  short_description: "Unify retro UI, prompt, and memory details"
+  default_prompt: "使用 $motionx-retro-pack-style-dna 按项目 DNA 优化这个 MotionX Retro Pack UI / Prompt，让它更有童年情怀且风格统一。"
+
+policy:
+  allow_implicit_invocation: true
