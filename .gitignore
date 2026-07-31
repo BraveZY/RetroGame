@@ -115,3 +115,6 @@ ProjectSettings/ShaderGraphSettings.asset
 scratch/
 .trae/mcps/
 .gitnexus
+
+# Retro game planning reference recordings are local-only and too large for Git.
+Retro_Games_plans/参考/视频图片/
