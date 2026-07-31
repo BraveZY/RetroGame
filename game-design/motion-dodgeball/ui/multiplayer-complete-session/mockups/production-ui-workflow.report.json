@@ -1,0 +1,1342 @@
+{
+  "generatedAt": "2026-07-22T10:17:34.527Z",
+  "status": "failed",
+  "accepted": false,
+  "deliveryAccepted": false,
+  "primitiveComplete": true,
+  "renderMode": "primitive-first",
+  "entry": "run_production_ui_workflow",
+  "gate": {
+    "minimumScore": 80,
+    "passed": true,
+    "materializeFailed": true,
+    "previewReady": false,
+    "manifestRequired": true,
+    "manifestReady": false,
+    "atlasRequired": false,
+    "atlasReady": false,
+    "deliveryGatePassed": true,
+    "deliveryGateIssues": []
+  },
+  "quality": {
+    "reviewScore": 86,
+    "issueCount": 3,
+    "refinementCount": 0,
+    "selectedConceptId": "concept_1_cafb26c6-2402-4551-a64b-c0acdc41ec6b"
+  },
+  "deliveryCompleteness": {
+    "psd": false,
+    "png": false,
+    "manifest": false,
+    "sprites": false,
+    "atlas": true
+  },
+  "outputDir": "/Users/dukechen/Documents/unity_project/MotionX_Retro_Pack/game-design/motion-dodgeball/ui/multiplayer-complete-session/mockups",
+  "selectedConceptId": "concept_1_cafb26c6-2402-4551-a64b-c0acdc41ec6b",
+  "refinementCount": 0,
+  "stages": [
+    {
+      "stage": "creative-brief",
+      "briefId": "brief_84f47363-7f8b-4467-9573-cfc225755358",
+      "qualityMode": "draft",
+      "renderMode": "primitive-first"
+    },
+    {
+      "stage": "art-direction-pack",
+      "packId": "art_brief-84f47363-7f8b-4467-9573-cfc225755358_1784715450995",
+      "qualityTier": "standard",
+      "preset": "game-premium",
+      "visualEvaluatorMode": "rules-only"
+    },
+    {
+      "stage": "style-dna",
+      "styleId": "style_a000842f-afb8-4001-ad58-990cecd70d28"
+    },
+    {
+      "stage": "live-readiness",
+      "ready": true,
+      "required": false
+    },
+    {
+      "stage": "reference-input-gate",
+      "ready": true,
+      "required": false
+    },
+    {
+      "stage": "multi-concept-generation",
+      "attempt": 1,
+      "conceptCount": 2
+    },
+    {
+      "stage": "visual-critic-ranking",
+      "attempt": 1,
+      "recommendedConceptId": "concept_1_cafb26c6-2402-4551-a64b-c0acdc41ec6b"
+    },
+    {
+      "stage": "concept-quality-gate",
+      "attempt": 1,
+      "passed": true,
+      "recommendedScore": 100,
+      "minimumScore": 80
+    },
+    {
+      "stage": "editable-psd-plan",
+      "attempt": 1,
+      "planId": "psdplan_d0211d7d-6543-4109-acb8-3685858c0020"
+    },
+    {
+      "stage": "photoshop-materialization",
+      "attempt": 1,
+      "status": "failed"
+    },
+    {
+      "stage": "review-gate",
+      "attempt": 1,
+      "passed": true,
+      "totalScore": 86
+    }
+  ],
+  "iterations": [
+    {
+      "attempt": 1,
+      "briefId": "brief_84f47363-7f8b-4467-9573-cfc225755358",
+      "recommendedConceptId": "concept_1_cafb26c6-2402-4551-a64b-c0acdc41ec6b",
+      "planId": "psdplan_d0211d7d-6543-4109-acb8-3685858c0020",
+      "materialized": {
+        "planId": "psdplan_d0211d7d-6543-4109-acb8-3685858c0020",
+        "status": "failed",
+        "createdLayers": [],
+        "skippedLayers": [],
+        "bridgeWarnings": [],
+        "fatalErrors": [
+          "materializeEditableLayers: [runAction] Error: 10_MainPanel/Panel_Outer_Notched_Frame: Photoshop 原生 contentLayer 创建失败，已阻止像素 fallback：Photoshop batchPlay command failed. result=-128"
+        ],
+        "layerCount": 13,
+        "groups": [
+          "00_BG",
+          "10_MainPanel",
+          "20_Content",
+          "30_Actions",
+          "90_ExportMarks",
+          "05_Hero"
+        ]
+      },
+      "review": {
+        "planId": "psdplan_d0211d7d-6543-4109-acb8-3685858c0020",
+        "documentId": "73",
+        "visualScore": 84,
+        "engineeringScore": 88,
+        "totalScore": 86,
+        "passed": true,
+        "issues": [
+          {
+            "severity": "warning",
+            "code": "MISSING_BACKDROP",
+            "message": "缺少 00_Backdrop 分组。"
+          },
+          {
+            "severity": "warning",
+            "code": "MISSING_POPUP",
+            "message": "缺少 10_Popup 分组。"
+          },
+          {
+            "severity": "info",
+            "code": "NO_BUTTON",
+            "message": "当前文档未发现按钮类图层。"
+          }
+        ],
+        "rubricScores": {
+          "visualNaturalness": 84,
+          "gameUiReadability": 84,
+          "informationHierarchy": 84,
+          "materialLighting": 84,
+          "psdEditability": 88,
+          "unityExportReadiness": 88,
+          "styleConsistency": 84
+        },
+        "fatalFindings": [],
+        "aestheticFindings": [],
+        "engineeringFindings": [],
+        "refinementDirectives": [
+          "缺少 00_Backdrop 分组。",
+          "缺少 10_Popup 分组。"
+        ],
+        "autoFixSuggestions": [
+          "当前资产可进入导出或下一轮视觉 refinement。"
+        ]
+      }
+    }
+  ],
+  "brief": {
+    "id": "brief_84f47363-7f8b-4467-9573-cfc225755358",
+    "request": "生成一张横版 16:9、45 度俯视操场的游戏内 HUD 布局简图。仅用于讨论布局，非最终美术。严格采用：左侧纵向两块状态牌（生命、剩余时间）；顶部中央为当前投手 A/B 的短时对位提示和持球/接球状态；右上深色目标条“目标：躲到 100 秒结束”并含三席阵容小条；右侧中部为带轻木框的深绿课间小黑板，显示“今日课间游戏｜丢沙包”“躲避 C 06”“投手命中 01”；中央 C 的横向躲避区保留完整空白，只显示短促反馈“躲开了！”和从上方投手 A 指向 C 的粗黄色预警线。画面底部是下方投手 B。使用干净、原创、亲子友好的童年操场语言；色彩为米白状态牌、深绿黑板、暖橙预警、跑道红。禁止加入分数、连击、活力、星级、商城、复杂教程、真实 IP 或照搬参考图角色与场景。文字可读性优先。",
+    "assetType": "hud",
+    "qualityMode": "draft",
+    "gameGenre": "game-ui",
+    "targetMood": "明亮、紧张但轻松、电视远距可读",
+    "platform": "console",
+    "width": 2048,
+    "height": 1152,
+    "dpi": 72,
+    "title": "体感丢沙包｜对局 HUD 简图",
+    "body": "概念草图必须清楚表达上侧投手 A → 中央躲避者 C → 下侧投手 B 的空间关系；所有 HUD 退到边缘，不能遮挡球路。",
+    "primaryAction": "确认",
+    "styleDirection": "简化的原创童年操场游戏 HUD；轻木框、深绿黑板、米白状态牌、暖橙预警；干净平面与轻微 2.5D 阴影",
+    "safeArea": {
+      "left": 96,
+      "top": 64,
+      "right": 96,
+      "bottom": 64
+    },
+    "contentPriority": [
+      "生命和时间",
+      "当前投手与方向预警",
+      "本局目标",
+      "躲避与命中统计",
+      "中央躲避空间"
+    ],
+    "referenceImages": [
+      "/var/folders/8g/fyms03yj1rz4qjhnctv91dvh0000gn/T/codex-clipboard-1db595b1-770a-4286-aa17-81a33b757e05.png",
+      "/Users/dukechen/Documents/unity_project/MotionX_Retro_Pack/game-design/motion-dodgeball/ui/multiplayer-complete-session/mockups/04-gameplay-hud-concept-v4-upright-45deg.png"
+    ],
+    "createdAt": "2026-07-22T10:17:30.993Z"
+  },
+  "styleDna": {
+    "id": "style_a000842f-afb8-4001-ad58-990cecd70d28",
+    "name": "简化的原创童年操场游戏 HUD；轻木框、深绿黑板、米白状态牌、暖橙预警；干净平面与轻微 2.5D 阴影",
+    "source": "reference",
+    "palette": [
+      "#7A1B05",
+      "#E93A10",
+      "#FF3B19",
+      "#FF9A5A",
+      "#FFF4C2"
+    ],
+    "materials": [
+      "orange red jelly glass",
+      "warm gold rim",
+      "soft translucent gel",
+      "white specular highlights",
+      "9-slice panel surface",
+      "material bans observed: 禁止廉价渐变堆叠代替材质系统。, 禁止无功能贴花和重复噪声当作高质量细节。, 禁止按钮、面板、文本分别使用互相冲突的光源方向。"
+    ],
+    "lighting": "warm top glass highlight, orange internal glow, soft lower contact shadow",
+    "shapeLanguage": "long rounded capsule controls, soft inflated surfaces and clean rim layers; panel body remains 9-slice friendly",
+    "typography": "optional readable CTA text kept editable above glossy red-orange surface",
+    "ornamentDensity": "low",
+    "colorRoles": {
+      "canvas": "#7A1B05",
+      "surface": "#E93A10",
+      "primaryAccent": "#FF3B19",
+      "secondaryAccent": "#FF9A5A",
+      "textPrimary": "#FFF4C2",
+      "focusGlow": "#FF3B19"
+    },
+    "materialRoles": {
+      "background": "orange red jelly glass",
+      "surface": "warm gold rim",
+      "edge": "soft translucent gel",
+      "ornament": "white specular highlights",
+      "text": "flat editable text with readable contrast"
+    },
+    "edgeLanguage": "thin warm gold outer rim, orange inner glow, soft capsule edge",
+    "lightingModel": "warm jelly product lighting with red-orange body, golden edge separation and white glossy speculars",
+    "typographyScale": {
+      "title": "40-56px panel title",
+      "body": "24-32px content copy",
+      "caption": "18-22px supporting label",
+      "cta": "30-40px action"
+    },
+    "ornamentRhythm": "主装饰少量聚焦，次装饰服务分区，微装饰只用于材质层次。",
+    "negativeRules": [
+      "avoid blue green palette drift",
+      "avoid cyan neon glow",
+      "avoid default casual blue gold capsule",
+      "do not copy reference composition one-to-one",
+      "do not rasterize text that should stay editable",
+      "TEMPLATE_PATTERN_REUSED",
+      "COLLAGE_STYLE_CONFLICT",
+      "EDITABLE_OVERLAY_MISSING",
+      "ORNAMENT_WITHOUT_FUNCTION",
+      "LIGHTING_INCONSISTENT",
+      "TEXT_PLACEHOLDER_FEEL",
+      "禁止所有 screen/panel 默认回到同一个居中面板骨架。",
+      "禁止装饰图形抢占正文、按钮或输入框可读性。",
+      "禁止同一 brief 的 concept 仅靠 palette rotation 区分。",
+      "禁止整张 raster base 吞掉可编辑控件。",
+      "禁止 overlay 光源、边缘语言与 raster base 明显割裂。",
+      "禁止把参考图布局直接照搬为最终 PSD。",
+      "avoid material: 禁止廉价渐变堆叠代替材质系统。",
+      "avoid material: 禁止无功能贴花和重复噪声当作高质量细节。",
+      "avoid material: 禁止按钮、面板、文本分别使用互相冲突的光源方向。"
+    ],
+    "artDirectionPackId": "art_brief-84f47363-7f8b-4467-9573-cfc225755358_1784715450995",
+    "notes": [
+      "Style DNA abstracts mood, color, material and rhythm; it must not copy a reference layout.",
+      "按钮、panel、整界面共享风格，但构图策略必须在 concept 阶段拉开差异。",
+      "Resolved family: warm-jelly.",
+      "Reference images influence mood tokens and source only; layout copying remains banned.",
+      "Art direction pack merged: art_brief-84f47363-7f8b-4467-9573-cfc225755358_1784715450995."
+    ]
+  },
+  "artDirectionPack": {
+    "id": "art_brief-84f47363-7f8b-4467-9573-cfc225755358_1784715450995",
+    "briefId": "brief_84f47363-7f8b-4467-9573-cfc225755358",
+    "qualityTier": "standard",
+    "preset": "game-premium",
+    "visualMotif": "premium game UI depth, controlled glow, editable interaction surfaces",
+    "targetQualityLine": "standard production UI: readable, exportable, and free of fatal composition or engineering issues",
+    "compositionRules": [
+      "建立明确主视觉、主操作、辅助信息三级层级。",
+      "每个 concept 必须选择不同 layout family，不能只换色或移动标题。",
+      "CTA 与核心输入/状态信息必须位于安全区内，并高于装饰层。"
+    ],
+    "compositionBans": [
+      "禁止所有 screen/panel 默认回到同一个居中面板骨架。",
+      "禁止装饰图形抢占正文、按钮或输入框可读性。",
+      "禁止同一 brief 的 concept 仅靠 palette rotation 区分。"
+    ],
+    "collageBans": [
+      "禁止整张 raster base 吞掉可编辑控件。",
+      "禁止 overlay 光源、边缘语言与 raster base 明显割裂。",
+      "禁止把参考图布局直接照搬为最终 PSD。"
+    ],
+    "materialBans": [
+      "禁止廉价渐变堆叠代替材质系统。",
+      "禁止无功能贴花和重复噪声当作高质量细节。",
+      "禁止按钮、面板、文本分别使用互相冲突的光源方向。"
+    ],
+    "hierarchyRules": [
+      "标题、核心内容、主 CTA 的对比必须明显高于装饰层。",
+      "按钮和输入框必须保持 shape/text 主导，raster 只能提供氛围或复杂纹理。",
+      "导出层必须可被 Unity manifest 追踪。"
+    ],
+    "ornamentRhythm": "主装饰少量聚焦，次装饰服务分区，微装饰只用于材质层次。",
+    "referenceUsageRules": [
+      "参考图只抽象色彩、材质、边缘和光源，不复制 IP 与布局。",
+      "image2-assisted 结果必须保留 editable overlay，并标记 primitiveComplete=false。",
+      "rules-only 模式必须在 report 标明无外部视觉模型参与。"
+    ],
+    "negativeRules": [
+      "TEMPLATE_PATTERN_REUSED",
+      "COLLAGE_STYLE_CONFLICT",
+      "EDITABLE_OVERLAY_MISSING",
+      "ORNAMENT_WITHOUT_FUNCTION",
+      "LIGHTING_INCONSISTENT",
+      "TEXT_PLACEHOLDER_FEEL"
+    ],
+    "createdAt": "2026-07-22T10:17:30.995Z"
+  },
+  "concepts": [
+    {
+      "id": "concept_1_cafb26c6-2402-4551-a64b-c0acdc41ec6b",
+      "briefId": "brief_84f47363-7f8b-4467-9573-cfc225755358",
+      "assetType": "hud",
+      "name": "Centered Premium Panel",
+      "family": "premium-center",
+      "layoutStrategy": "centered 9-slice panel with strong title and CTA",
+      "palette": [
+        "#7A1B05",
+        "#E93A10",
+        "#FF3B19",
+        "#FF9A5A",
+        "#FFF4C2"
+      ],
+      "rationale": "以 centered 9-slice panel with strong title and CTA 避免固定模板换皮，同时保留 PSD 可编辑结构。",
+      "layoutNotes": [
+        "主体区域清晰",
+        "主操作可点击",
+        "装饰服务层级而不是抢信息",
+        "标题、内容、动作三段分层"
+      ],
+      "focalHierarchy": [
+        "title crest",
+        "content well",
+        "CTA shelf"
+      ],
+      "materialPlan": [
+        "主材质：polished stone",
+        "风格材质：orange red jelly glass / warm gold rim / soft translucent gel / white specular highlights / 9-slice panel surface / material bans observed: 禁止廉价渐变堆叠代替材质系统。, 禁止无功能贴花和重复噪声当作高质量细节。, 禁止按钮、面板、文本分别使用互相冲突的光源方向。",
+        "光照约束：warm top glass highlight, orange internal glow, soft lower contact shadow",
+        "PSD 生产时优先保留 shape/text 可编辑层，raster 只承担氛围和复杂纹理。"
+      ],
+      "antiTemplateEvidence": [
+        "family=premium-center",
+        "focal=title crest > content well > CTA shelf",
+        "layout-note-count=4",
+        "palette-rotation=0",
+        "diversity=focused"
+      ],
+      "collageRisk": "low",
+      "criticHints": [
+        "优先检查 premium-center 是否真的改变信息层级，而不是只换装饰。",
+        "9-slice、文本层和状态层必须可独立导出。",
+        "concept 通过仅代表可进入 PSD plan 候选，不代表 production accepted。"
+      ],
+      "visualSource": "offline_debug",
+      "styleTags": [
+        "game-ui",
+        "hud",
+        "blue-white-gold"
+      ],
+      "compositionNotes": [
+        "主体轮廓可编辑",
+        "材质和光影服务可读性",
+        "保留 9-slice/export mark"
+      ],
+      "styleNotes": [
+        "材质：orange red jelly glass / warm gold rim / soft translucent gel / white specular highlights / 9-slice panel surface / material bans observed: 禁止廉价渐变堆叠代替材质系统。, 禁止无功能贴花和重复噪声当作高质量细节。, 禁止按钮、面板、文本分别使用互相冲突的光源方向。",
+        "光源：warm top glass highlight, orange internal glow, soft lower contact shadow",
+        "字体：optional readable CTA text kept editable above glossy red-orange surface",
+        "Draft 模式只产出 offline SVG 草图，不能作为最终美术验收。"
+      ],
+      "riskNotes": [
+        "需要在 PSD 重建阶段控制 raster 装饰层占比。"
+      ],
+      "previewPath": "/Users/dukechen/Documents/unity_project/MotionX_Retro_Pack/game-design/motion-dodgeball/ui/multiplayer-complete-session/mockups/attempt-1/concepts/centered-premium-panel.svg"
+    },
+    {
+      "id": "concept_2_6c16251b-c93a-4b48-a22a-965c6e7242c0",
+      "briefId": "brief_84f47363-7f8b-4467-9573-cfc225755358",
+      "assetType": "hud",
+      "name": "Layered Reward Panel",
+      "family": "reward-stack",
+      "layoutStrategy": "stacked reward/cards over panel shell",
+      "palette": [
+        "#E93A10",
+        "#FF3B19",
+        "#FF9A5A",
+        "#FFF4C2",
+        "#7A1B05"
+      ],
+      "rationale": "以 stacked reward/cards over panel shell 避免固定模板换皮，同时保留 PSD 可编辑结构。",
+      "layoutNotes": [
+        "主体区域清晰",
+        "主操作可点击",
+        "装饰服务层级而不是抢信息",
+        "奖励物优先于面板壳",
+        "卡片扇形错层但保留切片边界"
+      ],
+      "focalHierarchy": [
+        "reward item",
+        "card fan",
+        "claim CTA"
+      ],
+      "materialPlan": [
+        "主材质：gold enamel",
+        "风格材质：orange red jelly glass / warm gold rim / soft translucent gel / white specular highlights / 9-slice panel surface / material bans observed: 禁止廉价渐变堆叠代替材质系统。, 禁止无功能贴花和重复噪声当作高质量细节。, 禁止按钮、面板、文本分别使用互相冲突的光源方向。",
+        "光照约束：warm top glass highlight, orange internal glow, soft lower contact shadow",
+        "PSD 生产时优先保留 shape/text 可编辑层，raster 只承担氛围和复杂纹理。"
+      ],
+      "antiTemplateEvidence": [
+        "family=reward-stack",
+        "focal=reward item > card fan > claim CTA",
+        "layout-note-count=5",
+        "palette-rotation=1",
+        "diversity=focused"
+      ],
+      "collageRisk": "medium",
+      "criticHints": [
+        "优先检查 reward-stack 是否真的改变信息层级，而不是只换装饰。",
+        "9-slice、文本层和状态层必须可独立导出。",
+        "concept 通过仅代表可进入 PSD plan 候选，不代表 production accepted。"
+      ],
+      "visualSource": "offline_debug",
+      "styleTags": [
+        "game-ui",
+        "hud",
+        "blue-white-gold"
+      ],
+      "compositionNotes": [
+        "主体轮廓可编辑",
+        "材质和光影服务可读性",
+        "保留 9-slice/export mark"
+      ],
+      "styleNotes": [
+        "材质：orange red jelly glass / warm gold rim / soft translucent gel / white specular highlights / 9-slice panel surface / material bans observed: 禁止廉价渐变堆叠代替材质系统。, 禁止无功能贴花和重复噪声当作高质量细节。, 禁止按钮、面板、文本分别使用互相冲突的光源方向。",
+        "光源：warm top glass highlight, orange internal glow, soft lower contact shadow",
+        "字体：optional readable CTA text kept editable above glossy red-orange surface",
+        "Draft 模式只产出 offline SVG 草图，不能作为最终美术验收。"
+      ],
+      "riskNotes": [
+        "需要在 PSD 重建阶段控制 raster 装饰层占比。"
+      ],
+      "previewPath": "/Users/dukechen/Documents/unity_project/MotionX_Retro_Pack/game-design/motion-dodgeball/ui/multiplayer-complete-session/mockups/attempt-1/concepts/layered-reward-panel.svg"
+    }
+  ],
+  "conceptReview": {
+    "briefId": "brief_84f47363-7f8b-4467-9573-cfc225755358",
+    "recommendedConceptId": "concept_1_cafb26c6-2402-4551-a64b-c0acdc41ec6b",
+    "ranking": [
+      {
+        "conceptId": "concept_1_cafb26c6-2402-4551-a64b-c0acdc41ec6b",
+        "totalScore": 100,
+        "scores": {
+          "visualNaturalness": 100,
+          "gameUiReadability": 85,
+          "informationHierarchy": 93,
+          "materialLighting": 100,
+          "psdEditability": 86,
+          "unityExportReadiness": 94,
+          "styleConsistency": 96
+        },
+        "reasons": [
+          "采用 centered 9-slice panel with strong title and CTA，与 hud 目标匹配。",
+          "差异证据：family=premium-center；focal=title crest > content well > CTA shelf；layout-note-count=4；palette-rotation=0；diversity=focused",
+          "需控制风险：需要在 PSD 重建阶段控制 raster 装饰层占比。；low"
+        ]
+      },
+      {
+        "conceptId": "concept_2_6c16251b-c93a-4b48-a22a-965c6e7242c0",
+        "totalScore": 100,
+        "scores": {
+          "visualNaturalness": 91,
+          "gameUiReadability": 74,
+          "informationHierarchy": 92,
+          "materialLighting": 100,
+          "psdEditability": 81,
+          "unityExportReadiness": 88,
+          "styleConsistency": 93
+        },
+        "reasons": [
+          "采用 stacked reward/cards over panel shell，与 hud 目标匹配。",
+          "差异证据：family=reward-stack；focal=reward item > card fan > claim CTA；layout-note-count=5；palette-rotation=1；diversity=focused",
+          "需控制风险：需要在 PSD 重建阶段控制 raster 装饰层占比。；medium"
+        ]
+      }
+    ],
+    "summary": "推荐进入 Editable PSD Plan 候选；concept 通过不代表 production accepted，仍需 PSD 编辑性、live Photoshop 执行与 review gate 验收。"
+  },
+  "plan": {
+    "id": "psdplan_d0211d7d-6543-4109-acb8-3685858c0020",
+    "brief": {
+      "id": "brief_84f47363-7f8b-4467-9573-cfc225755358",
+      "request": "生成一张横版 16:9、45 度俯视操场的游戏内 HUD 布局简图。仅用于讨论布局，非最终美术。严格采用：左侧纵向两块状态牌（生命、剩余时间）；顶部中央为当前投手 A/B 的短时对位提示和持球/接球状态；右上深色目标条“目标：躲到 100 秒结束”并含三席阵容小条；右侧中部为带轻木框的深绿课间小黑板，显示“今日课间游戏｜丢沙包”“躲避 C 06”“投手命中 01”；中央 C 的横向躲避区保留完整空白，只显示短促反馈“躲开了！”和从上方投手 A 指向 C 的粗黄色预警线。画面底部是下方投手 B。使用干净、原创、亲子友好的童年操场语言；色彩为米白状态牌、深绿黑板、暖橙预警、跑道红。禁止加入分数、连击、活力、星级、商城、复杂教程、真实 IP 或照搬参考图角色与场景。文字可读性优先。",
+      "assetType": "hud",
+      "qualityMode": "draft",
+      "gameGenre": "game-ui",
+      "targetMood": "明亮、紧张但轻松、电视远距可读",
+      "platform": "console",
+      "width": 2048,
+      "height": 1152,
+      "dpi": 72,
+      "title": "体感丢沙包｜对局 HUD 简图",
+      "body": "概念草图必须清楚表达上侧投手 A → 中央躲避者 C → 下侧投手 B 的空间关系；所有 HUD 退到边缘，不能遮挡球路。",
+      "primaryAction": "确认",
+      "styleDirection": "简化的原创童年操场游戏 HUD；轻木框、深绿黑板、米白状态牌、暖橙预警；干净平面与轻微 2.5D 阴影",
+      "safeArea": {
+        "left": 96,
+        "top": 64,
+        "right": 96,
+        "bottom": 64
+      },
+      "contentPriority": [
+        "生命和时间",
+        "当前投手与方向预警",
+        "本局目标",
+        "躲避与命中统计",
+        "中央躲避空间"
+      ],
+      "referenceImages": [
+        "/var/folders/8g/fyms03yj1rz4qjhnctv91dvh0000gn/T/codex-clipboard-1db595b1-770a-4286-aa17-81a33b757e05.png",
+        "/Users/dukechen/Documents/unity_project/MotionX_Retro_Pack/game-design/motion-dodgeball/ui/multiplayer-complete-session/mockups/04-gameplay-hud-concept-v4-upright-45deg.png"
+      ],
+      "createdAt": "2026-07-22T10:17:30.993Z"
+    },
+    "styleDna": {
+      "id": "style_a000842f-afb8-4001-ad58-990cecd70d28",
+      "name": "简化的原创童年操场游戏 HUD；轻木框、深绿黑板、米白状态牌、暖橙预警；干净平面与轻微 2.5D 阴影",
+      "source": "reference",
+      "palette": [
+        "#7A1B05",
+        "#E93A10",
+        "#FF3B19",
+        "#FF9A5A",
+        "#FFF4C2"
+      ],
+      "materials": [
+        "orange red jelly glass",
+        "warm gold rim",
+        "soft translucent gel",
+        "white specular highlights",
+        "9-slice panel surface",
+        "material bans observed: 禁止廉价渐变堆叠代替材质系统。, 禁止无功能贴花和重复噪声当作高质量细节。, 禁止按钮、面板、文本分别使用互相冲突的光源方向。"
+      ],
+      "lighting": "warm top glass highlight, orange internal glow, soft lower contact shadow",
+      "shapeLanguage": "long rounded capsule controls, soft inflated surfaces and clean rim layers; panel body remains 9-slice friendly",
+      "typography": "optional readable CTA text kept editable above glossy red-orange surface",
+      "ornamentDensity": "low",
+      "colorRoles": {
+        "canvas": "#7A1B05",
+        "surface": "#E93A10",
+        "primaryAccent": "#FF3B19",
+        "secondaryAccent": "#FF9A5A",
+        "textPrimary": "#FFF4C2",
+        "focusGlow": "#FF3B19"
+      },
+      "materialRoles": {
+        "background": "orange red jelly glass",
+        "surface": "warm gold rim",
+        "edge": "soft translucent gel",
+        "ornament": "white specular highlights",
+        "text": "flat editable text with readable contrast"
+      },
+      "edgeLanguage": "thin warm gold outer rim, orange inner glow, soft capsule edge",
+      "lightingModel": "warm jelly product lighting with red-orange body, golden edge separation and white glossy speculars",
+      "typographyScale": {
+        "title": "40-56px panel title",
+        "body": "24-32px content copy",
+        "caption": "18-22px supporting label",
+        "cta": "30-40px action"
+      },
+      "ornamentRhythm": "主装饰少量聚焦，次装饰服务分区，微装饰只用于材质层次。",
+      "negativeRules": [
+        "avoid blue green palette drift",
+        "avoid cyan neon glow",
+        "avoid default casual blue gold capsule",
+        "do not copy reference composition one-to-one",
+        "do not rasterize text that should stay editable",
+        "TEMPLATE_PATTERN_REUSED",
+        "COLLAGE_STYLE_CONFLICT",
+        "EDITABLE_OVERLAY_MISSING",
+        "ORNAMENT_WITHOUT_FUNCTION",
+        "LIGHTING_INCONSISTENT",
+        "TEXT_PLACEHOLDER_FEEL",
+        "禁止所有 screen/panel 默认回到同一个居中面板骨架。",
+        "禁止装饰图形抢占正文、按钮或输入框可读性。",
+        "禁止同一 brief 的 concept 仅靠 palette rotation 区分。",
+        "禁止整张 raster base 吞掉可编辑控件。",
+        "禁止 overlay 光源、边缘语言与 raster base 明显割裂。",
+        "禁止把参考图布局直接照搬为最终 PSD。",
+        "avoid material: 禁止廉价渐变堆叠代替材质系统。",
+        "avoid material: 禁止无功能贴花和重复噪声当作高质量细节。",
+        "avoid material: 禁止按钮、面板、文本分别使用互相冲突的光源方向。"
+      ],
+      "artDirectionPackId": "art_brief-84f47363-7f8b-4467-9573-cfc225755358_1784715450995",
+      "notes": [
+        "Style DNA abstracts mood, color, material and rhythm; it must not copy a reference layout.",
+        "按钮、panel、整界面共享风格，但构图策略必须在 concept 阶段拉开差异。",
+        "Resolved family: warm-jelly.",
+        "Reference images influence mood tokens and source only; layout copying remains banned.",
+        "Art direction pack merged: art_brief-84f47363-7f8b-4467-9573-cfc225755358_1784715450995."
+      ]
+    },
+    "concept": {
+      "id": "concept_1_cafb26c6-2402-4551-a64b-c0acdc41ec6b",
+      "briefId": "brief_84f47363-7f8b-4467-9573-cfc225755358",
+      "assetType": "hud",
+      "name": "Centered Premium Panel",
+      "family": "premium-center",
+      "layoutStrategy": "centered 9-slice panel with strong title and CTA",
+      "palette": [
+        "#7A1B05",
+        "#E93A10",
+        "#FF3B19",
+        "#FF9A5A",
+        "#FFF4C2"
+      ],
+      "rationale": "以 centered 9-slice panel with strong title and CTA 避免固定模板换皮，同时保留 PSD 可编辑结构。",
+      "layoutNotes": [
+        "主体区域清晰",
+        "主操作可点击",
+        "装饰服务层级而不是抢信息",
+        "标题、内容、动作三段分层"
+      ],
+      "focalHierarchy": [
+        "title crest",
+        "content well",
+        "CTA shelf"
+      ],
+      "materialPlan": [
+        "主材质：polished stone",
+        "风格材质：orange red jelly glass / warm gold rim / soft translucent gel / white specular highlights / 9-slice panel surface / material bans observed: 禁止廉价渐变堆叠代替材质系统。, 禁止无功能贴花和重复噪声当作高质量细节。, 禁止按钮、面板、文本分别使用互相冲突的光源方向。",
+        "光照约束：warm top glass highlight, orange internal glow, soft lower contact shadow",
+        "PSD 生产时优先保留 shape/text 可编辑层，raster 只承担氛围和复杂纹理。"
+      ],
+      "antiTemplateEvidence": [
+        "family=premium-center",
+        "focal=title crest > content well > CTA shelf",
+        "layout-note-count=4",
+        "palette-rotation=0",
+        "diversity=focused"
+      ],
+      "collageRisk": "low",
+      "criticHints": [
+        "优先检查 premium-center 是否真的改变信息层级，而不是只换装饰。",
+        "9-slice、文本层和状态层必须可独立导出。",
+        "concept 通过仅代表可进入 PSD plan 候选，不代表 production accepted。"
+      ],
+      "visualSource": "offline_debug",
+      "styleTags": [
+        "game-ui",
+        "hud",
+        "blue-white-gold"
+      ],
+      "compositionNotes": [
+        "主体轮廓可编辑",
+        "材质和光影服务可读性",
+        "保留 9-slice/export mark"
+      ],
+      "styleNotes": [
+        "材质：orange red jelly glass / warm gold rim / soft translucent gel / white specular highlights / 9-slice panel surface / material bans observed: 禁止廉价渐变堆叠代替材质系统。, 禁止无功能贴花和重复噪声当作高质量细节。, 禁止按钮、面板、文本分别使用互相冲突的光源方向。",
+        "光源：warm top glass highlight, orange internal glow, soft lower contact shadow",
+        "字体：optional readable CTA text kept editable above glossy red-orange surface",
+        "Draft 模式只产出 offline SVG 草图，不能作为最终美术验收。"
+      ],
+      "riskNotes": [
+        "需要在 PSD 重建阶段控制 raster 装饰层占比。"
+      ],
+      "previewPath": "/Users/dukechen/Documents/unity_project/MotionX_Retro_Pack/game-design/motion-dodgeball/ui/multiplayer-complete-session/mockups/attempt-1/concepts/centered-premium-panel.svg"
+    },
+    "document": {
+      "name": "MotionDodgeball_HUD_Layout_Sketch_Draft",
+      "width": 2048,
+      "height": 1152,
+      "dpi": 72,
+      "background": "#7A1B05"
+    },
+    "groups": [
+      "00_BG",
+      "10_MainPanel",
+      "20_Content",
+      "30_Actions",
+      "90_ExportMarks",
+      "05_Hero"
+    ],
+    "layers": [
+      {
+        "groupPath": "00_BG",
+        "name": "Backdrop",
+        "kind": "shape",
+        "layerRole": "background_adjustment",
+        "shape": "rect",
+        "x": 0,
+        "y": 0,
+        "width": 2048,
+        "height": 1152,
+        "fillColor": "#7A1B05",
+        "gradientOverlay": {
+          "type": "linear",
+          "angle": -18,
+          "opacity": 0.64,
+          "scale": 110,
+          "stops": [
+            {
+              "color": "#7A1B05",
+              "position": 0
+            },
+            {
+              "color": "#E93A10",
+              "position": 1
+            }
+          ]
+        }
+      },
+      {
+        "groupPath": "05_Hero",
+        "name": "Panel_Motif_Glow",
+        "kind": "shape",
+        "layerRole": "decoration",
+        "shape": "roundedRect",
+        "x": 258,
+        "y": 176,
+        "width": 1532,
+        "height": 157,
+        "fillColor": "#FF3B19",
+        "radius": 42,
+        "opacity": 0.22,
+        "blendMode": "screen"
+      },
+      {
+        "groupPath": "10_MainPanel",
+        "name": "Panel_Outer_Notched_Frame",
+        "kind": "shape",
+        "layerRole": "panel",
+        "shape": "custom",
+        "x": 328,
+        "y": 219,
+        "width": 1393,
+        "height": 714,
+        "fillColor": "#E93A10",
+        "fill": {
+          "type": "linear",
+          "angle": 90,
+          "stops": [
+            {
+              "color": "#FF9A5A",
+              "position": 0
+            },
+            {
+              "color": "#E93A10",
+              "position": 0.42
+            },
+            {
+              "color": "#7A1B05",
+              "position": 1
+            }
+          ]
+        },
+        "points": [
+          {
+            "x": 444,
+            "y": 219
+          },
+          {
+            "x": 1682,
+            "y": 219
+          },
+          {
+            "x": 1721,
+            "y": 258
+          },
+          {
+            "x": 1721,
+            "y": 837
+          },
+          {
+            "x": 1644,
+            "y": 933
+          },
+          {
+            "x": 367,
+            "y": 933
+          },
+          {
+            "x": 328,
+            "y": 894
+          },
+          {
+            "x": 328,
+            "y": 315
+          }
+        ],
+        "closed": true,
+        "materialPreset": "brushed-metal",
+        "surfaceNoise": {
+          "opacity": 0.06,
+          "scale": 0.58,
+          "monochrome": true
+        },
+        "stroke": {
+          "color": "#FF9A5A",
+          "opacity": 0.72,
+          "width": 6,
+          "position": "inside"
+        },
+        "innerShadow": {
+          "color": "#000000",
+          "opacity": 0.34,
+          "blur": 18,
+          "distance": 6,
+          "angle": 110,
+          "choke": 2,
+          "blendMode": "multiply"
+        },
+        "bevelEmboss": {
+          "style": "innerBevel",
+          "technique": "smooth",
+          "depth": 72,
+          "size": 8,
+          "soften": 3,
+          "angle": 105,
+          "altitude": 34,
+          "highlightColor": "#FFFFFF",
+          "highlightOpacity": 0.28,
+          "shadowColor": "#000000",
+          "shadowOpacity": 0.22
+        },
+        "shadow": {
+          "color": "#000000",
+          "opacity": 0.42,
+          "blur": 36,
+          "offsetX": 0,
+          "offsetY": 18
+        },
+        "outerGlow": {
+          "color": "#FF3B19",
+          "opacity": 0.22,
+          "blur": 24
+        },
+        "export": {
+          "spriteName": "ui_panel_base",
+          "border": [
+            36,
+            36,
+            36,
+            36
+          ],
+          "pivot": [
+            0.5,
+            0.5
+          ],
+          "atlasReady": true
+        }
+      },
+      {
+        "groupPath": "10_MainPanel",
+        "name": "Panel_Inner_Glass_Surface",
+        "kind": "shape",
+        "layerRole": "panel",
+        "shape": "roundedRect",
+        "x": 354,
+        "y": 247,
+        "width": 1341,
+        "height": 656,
+        "fillColor": "#7A1B05",
+        "radius": 28,
+        "opacity": 0.76,
+        "blendMode": "overlay",
+        "materialPreset": "premium-glass",
+        "surfaceNoise": {
+          "opacity": 0.03,
+          "scale": 0.38,
+          "monochrome": true
+        },
+        "stroke": {
+          "color": "#FF3B19",
+          "opacity": 0.22,
+          "width": 2,
+          "position": "inside"
+        },
+        "innerGlow": {
+          "color": "#FFFFFF",
+          "opacity": 0.12,
+          "blur": 18
+        },
+        "innerShadow": {
+          "color": "#000000",
+          "opacity": 0.28,
+          "blur": 18,
+          "distance": 5,
+          "angle": 110,
+          "choke": 2,
+          "blendMode": "multiply"
+        }
+      },
+      {
+        "groupPath": "10_MainPanel",
+        "name": "Panel_Header_Badge_Tab",
+        "kind": "shape",
+        "layerRole": "panel",
+        "shape": "custom",
+        "x": 495,
+        "y": 237,
+        "width": 1059,
+        "height": 157,
+        "fillColor": "#7A1B05",
+        "fill": {
+          "type": "linear",
+          "angle": 90,
+          "stops": [
+            {
+              "color": "#FF3B19",
+              "position": 0
+            },
+            {
+              "color": "#7A1B05",
+              "position": 1
+            }
+          ]
+        },
+        "points": [
+          {
+            "x": 580,
+            "y": 237
+          },
+          {
+            "x": 1469,
+            "y": 237
+          },
+          {
+            "x": 1554,
+            "y": 284
+          },
+          {
+            "x": 1507,
+            "y": 394
+          },
+          {
+            "x": 542,
+            "y": 394
+          },
+          {
+            "x": 495,
+            "y": 284
+          }
+        ],
+        "closed": true,
+        "opacity": 0.58,
+        "blendMode": "overlay",
+        "materialPreset": "premium-glass",
+        "stroke": {
+          "color": "#FF3B19",
+          "opacity": 0.28,
+          "width": 2,
+          "position": "inside"
+        }
+      },
+      {
+        "groupPath": "10_MainPanel",
+        "name": "Panel_Left_Energy_Rail",
+        "kind": "shape",
+        "layerRole": "decoration",
+        "shape": "custom",
+        "x": 356,
+        "y": 398,
+        "width": 8,
+        "height": 357,
+        "fillColor": "#FF3B19",
+        "points": [
+          {
+            "x": 356,
+            "y": 398
+          },
+          {
+            "x": 364,
+            "y": 412
+          },
+          {
+            "x": 364,
+            "y": 741
+          },
+          {
+            "x": 356,
+            "y": 755
+          }
+        ],
+        "closed": true,
+        "materialPreset": "energy-core",
+        "opacity": 0.34,
+        "blendMode": "screen",
+        "outerGlow": {
+          "color": "#FF3B19",
+          "opacity": 0.26,
+          "blur": 10
+        }
+      },
+      {
+        "groupPath": "10_MainPanel",
+        "name": "Panel_Right_Energy_Rail",
+        "kind": "shape",
+        "layerRole": "decoration",
+        "shape": "custom",
+        "x": 1687,
+        "y": 398,
+        "width": 8,
+        "height": 357,
+        "fillColor": "#FF3B19",
+        "points": [
+          {
+            "x": 1695,
+            "y": 398
+          },
+          {
+            "x": 1687,
+            "y": 412
+          },
+          {
+            "x": 1687,
+            "y": 741
+          },
+          {
+            "x": 1695,
+            "y": 755
+          }
+        ],
+        "closed": true,
+        "materialPreset": "energy-core",
+        "opacity": 0.34,
+        "blendMode": "screen",
+        "outerGlow": {
+          "color": "#FF3B19",
+          "opacity": 0.26,
+          "blur": 10
+        }
+      },
+      {
+        "groupPath": "20_Content",
+        "name": "Title_Text",
+        "kind": "text",
+        "text": "体感丢沙包｜对局 HUD 简图",
+        "x": 400,
+        "y": 277,
+        "width": 1249,
+        "height": 82,
+        "fontFamily": "Game UI Rounded",
+        "fontSize": 54,
+        "color": "#FFFFFF",
+        "align": "center",
+        "shadow": {
+          "color": "#000000",
+          "opacity": 0.36,
+          "blur": 14,
+          "offsetX": 0,
+          "offsetY": 5
+        }
+      },
+      {
+        "groupPath": "20_Content",
+        "name": "Content_Card",
+        "kind": "shape",
+        "layerRole": "panel",
+        "shape": "roundedRect",
+        "x": 523,
+        "y": 490,
+        "width": 1003,
+        "height": 157,
+        "fillColor": "#07111D",
+        "radius": 24,
+        "opacity": 0.72,
+        "stroke": {
+          "color": "#FF9A5A",
+          "opacity": 0.26,
+          "width": 2,
+          "position": "inside"
+        }
+      },
+      {
+        "groupPath": "20_Content",
+        "name": "Energy_Bar_Frame",
+        "kind": "shape",
+        "layerRole": "status",
+        "shape": "custom",
+        "x": 579,
+        "y": 761,
+        "width": 892,
+        "height": 37,
+        "fillColor": "#06111F",
+        "points": [
+          {
+            "x": 596,
+            "y": 761
+          },
+          {
+            "x": 1471,
+            "y": 761
+          },
+          {
+            "x": 1454,
+            "y": 798
+          },
+          {
+            "x": 579,
+            "y": 798
+          }
+        ],
+        "closed": true,
+        "materialPreset": "brushed-metal",
+        "stroke": {
+          "color": "#FF9A5A",
+          "opacity": 0.42,
+          "width": 2,
+          "position": "inside"
+        },
+        "innerShadow": {
+          "color": "#000000",
+          "opacity": 0.42,
+          "blur": 8,
+          "distance": 2,
+          "angle": 90,
+          "choke": 1,
+          "blendMode": "multiply"
+        }
+      },
+      {
+        "groupPath": "20_Content",
+        "name": "Energy_Bar_Fill",
+        "kind": "shape",
+        "layerRole": "status",
+        "shape": "custom",
+        "x": 593,
+        "y": 768,
+        "width": 585,
+        "height": 24,
+        "fillColor": "#FF3B19",
+        "points": [
+          {
+            "x": 604,
+            "y": 768
+          },
+          {
+            "x": 1178,
+            "y": 768
+          },
+          {
+            "x": 1167,
+            "y": 792
+          },
+          {
+            "x": 593,
+            "y": 792
+          }
+        ],
+        "closed": true,
+        "materialPreset": "energy-core",
+        "opacity": 0.82,
+        "blendMode": "screen",
+        "outerGlow": {
+          "color": "#FF3B19",
+          "opacity": 0.34,
+          "blur": 12
+        }
+      },
+      {
+        "groupPath": "20_Content",
+        "name": "Body_Text",
+        "kind": "text",
+        "text": "概念草图必须清楚表达上侧投手 A → 中央躲避者 C → 下侧投手 B 的空间关系；所有 HUD 退到边缘，不能遮挡球路。",
+        "x": 424,
+        "y": 389,
+        "width": 1201,
+        "height": 110,
+        "fontFamily": "OfflineSans",
+        "fontSize": 28,
+        "color": "#CFE6FF",
+        "align": "center"
+      },
+      {
+        "groupPath": "30_Actions",
+        "name": "Primary_Button",
+        "kind": "shape",
+        "layerRole": "action",
+        "shape": "roundedRect",
+        "x": 732,
+        "y": 801,
+        "width": 585,
+        "height": 76,
+        "fillColor": "#FF3B19",
+        "radius": 18,
+        "stroke": {
+          "color": "#FFFFFF",
+          "opacity": 0.32,
+          "width": 4,
+          "position": "inside"
+        },
+        "shadow": {
+          "color": "#000000",
+          "opacity": 0.4,
+          "blur": 24,
+          "offsetX": 0,
+          "offsetY": 12
+        },
+        "export": {
+          "spriteName": "ui_体感丢沙包-对局-hud-简图_primary_button",
+          "border": [
+            24,
+            24,
+            24,
+            24
+          ],
+          "pivot": [
+            0.5,
+            0.5
+          ],
+          "atlasReady": true
+        }
+      }
+    ],
+    "stateGroups": [],
+    "exportMarks": [
+      {
+        "spriteName": "ui_panel_base",
+        "border": [
+          36,
+          36,
+          36,
+          36
+        ],
+        "pivot": [
+          0.5,
+          0.5
+        ],
+        "atlasReady": true
+      },
+      {
+        "spriteName": "ui_体感丢沙包-对局-hud-简图_primary_button",
+        "border": [
+          24,
+          24,
+          24,
+          24
+        ],
+        "pivot": [
+          0.5,
+          0.5
+        ],
+        "atlasReady": true
+      }
+    ],
+    "qualityMode": "draft",
+    "renderMode": "primitive-first",
+    "primitiveComplete": true,
+    "rationale": [
+      "Concept 负责视觉方向，PSD plan 负责可编辑图层结构。",
+      "主体形状、文本、按钮状态和导出标记保持可编辑。",
+      "Primitive-first 模式要求主体按钮材质由 vector/text/style primitive 构成。",
+      "Draft 模式允许离线草图，但不能作为最终高质量验收。"
+    ]
+  },
+  "materialized": {
+    "planId": "psdplan_d0211d7d-6543-4109-acb8-3685858c0020",
+    "status": "failed",
+    "createdLayers": [],
+    "skippedLayers": [],
+    "bridgeWarnings": [],
+    "fatalErrors": [
+      "materializeEditableLayers: [runAction] Error: 10_MainPanel/Panel_Outer_Notched_Frame: Photoshop 原生 contentLayer 创建失败，已阻止像素 fallback：Photoshop batchPlay command failed. result=-128"
+    ],
+    "layerCount": 13,
+    "groups": [
+      "00_BG",
+      "10_MainPanel",
+      "20_Content",
+      "30_Actions",
+      "90_ExportMarks",
+      "05_Hero"
+    ]
+  },
+  "review": {
+    "planId": "psdplan_d0211d7d-6543-4109-acb8-3685858c0020",
+    "documentId": "73",
+    "visualScore": 84,
+    "engineeringScore": 88,
+    "totalScore": 86,
+    "passed": true,
+    "issues": [
+      {
+        "severity": "warning",
+        "code": "MISSING_BACKDROP",
+        "message": "缺少 00_Backdrop 分组。"
+      },
+      {
+        "severity": "warning",
+        "code": "MISSING_POPUP",
+        "message": "缺少 10_Popup 分组。"
+      },
+      {
+        "severity": "info",
+        "code": "NO_BUTTON",
+        "message": "当前文档未发现按钮类图层。"
+      }
+    ],
+    "rubricScores": {
+      "visualNaturalness": 84,
+      "gameUiReadability": 84,
+      "informationHierarchy": 84,
+      "materialLighting": 84,
+      "psdEditability": 88,
+      "unityExportReadiness": 88,
+      "styleConsistency": 84
+    },
+    "fatalFindings": [],
+    "aestheticFindings": [],
+    "engineeringFindings": [],
+    "refinementDirectives": [
+      "缺少 00_Backdrop 分组。",
+      "缺少 10_Popup 分组。"
+    ],
+    "autoFixSuggestions": [
+      "当前资产可进入导出或下一轮视觉 refinement。"
+    ]
+  }
+}
