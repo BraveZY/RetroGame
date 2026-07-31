@@ -14,7 +14,7 @@
 [Mm]y project_BurstDebugInformation_DoNotShip/
 [Mm]otionSport_URP(Unity 2021.3.43f1)_BurstDebugInformation_DoNotShip/
 # [Pp]ackages/
-UserSettings/Layouts/default-2021.dwlt
+UserSettings/
 ProjectSettings/PackageManagerSettings.asset
 ProjectSettings/AutoStreamingSettings.asset
 ProjectSettings/EditorBuildSettings.asset
@@ -47,6 +47,7 @@ ProjectSettings/EditorBuildSettings.asset
 
 # Unity3D generated file on crash reports
 sysinfo.txt
+mono_crash.*.json
 
 # Builds
 *.apk
