@@ -14,8 +14,6 @@ namespace PoseAI
         [Tooltip("姿态数据管理器（自动从同GameObject或场景中获取）")]
         public PoseDataManager poseDataManager;
 
-        private InferenceEngineHandler inferenceEngineHandler;
-
         [HideInInspector]
         [Tooltip("UI姿态渲染器组件（自动从同GameObject或场景中获取）。用于获取Canvas坐标转换参数（如useFullScreen、displayWidth等）")]
         public PoseUIRenderer poseUIRenderer;
@@ -95,16 +93,6 @@ namespace PoseAI
             if (poseDataManager == null)
             {
                 poseDataManager = FindObjectOfType<PoseDataManager>();
-            }
-
-            if (poseDataManager != null)
-            {
-                inferenceEngineHandler = poseDataManager.InferenceHandler;
-            }
-
-            if (inferenceEngineHandler == null)
-            {
-                Debug.Log("PoseCoordinateDisplay: 等待 InferenceEngineHandler 初始化...");
             }
 
             // 优先从同 GameObject 获取 UI 姿态渲染器
@@ -393,14 +381,8 @@ namespace PoseAI
 
         private void Update()
         {
-            // 如果引用丢失，尝试重新获取
-            if (inferenceEngineHandler == null && poseDataManager != null)
-            {
-                inferenceEngineHandler = poseDataManager.InferenceHandler;
-            }
-
-            // 检查基本条件：如果 inferenceEngineHandler 为空，说明配置错误，隐藏文本
-            if (inferenceEngineHandler == null)
+            // 姿态数据管理器不可用时隐藏坐标文本。
+            if (poseDataManager == null)
             {
                 SetTextVisible(leftWristText, false);
                 SetTextVisible(rightWristText, false);
@@ -707,4 +689,3 @@ namespace PoseAI
         }
     }
 }
-

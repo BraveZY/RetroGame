@@ -28,7 +28,6 @@ namespace PoseAI
     /// 负责集成数据源与可视化渲染：自动初始化、事件分发、状态查询等
     /// 推荐作为场景中负责姿态感知的主控组件
     /// </summary>
-    [RequireComponent(typeof(InferenceEngineHandler))]
     [RequireComponent(typeof(PoseDataSourceManager))]
     public class PoseDataManager : MonoBehaviour
     {
@@ -63,14 +62,7 @@ namespace PoseAI
         [Tooltip("自动启动")]
         public bool autoStart = false;
 
-        [Header("状态显示")]
         [SerializeField] private PoseInferenceResult latestResult = null;
-        [SerializeField] private InferenceResult latestInferenceResult = null;
-
-        /// <summary>
-        /// 推理引擎处理器
-        /// </summary>
-        public InferenceEngineHandler InferenceHandler { get; private set; }
 
         // 姿态结果更新事件，对外开放，便于外部订阅最新推理结果
         public event Action<PoseInferenceResult> OnPoseUpdate;
@@ -80,20 +72,6 @@ namespace PoseAI
             // 确保 GameObject 在场景切换时不被销毁
             DontDestroyOnLoad(gameObject);
             
-            // 由于使用了 [RequireComponent]，Unity 会确保该组件存在
-            // 我们只需要在 Awake 中获取引用即可，无需再次 AddComponent
-            InferenceHandler = GetComponent<InferenceEngineHandler>();
-            
-            if (InferenceHandler != null)
-            {
-                // 自动连接引用
-                InferenceHandler.poseDataManager = this;
-            }
-            else
-            {
-                Debug.LogError($"PoseDataManager: 未能在物体 {gameObject.name} 上找到 InferenceEngineHandler 组件，请检查 [RequireComponent] 是否生效。");
-            }
-
             // 自动查找同 GameObject 上的 PoseDataSourceManager（RequireComponent 保证存在）
             dataSourceManager = GetComponent<PoseDataSourceManager>();
             if (dataSourceManager == null)
@@ -217,11 +195,6 @@ namespace PoseAI
                 poseUIRenderer.UpdatePose(result);
             }
 
-            // 更新推理结果状态显示（用于Inspector观察）
-            if (InferenceHandler != null)
-            {
-                latestInferenceResult = InferenceHandler.LatestResult;
-            }
         }
 
         /// <summary>
@@ -272,11 +245,6 @@ namespace PoseAI
                 dataSourceManager.OnDisconnected -= HandleDisconnected;
             }
 
-            // 释放推理引擎引用
-            if (InferenceHandler != null)
-            {
-                InferenceHandler = null;
-            }
         }
 
         // 公共属性

@@ -7,7 +7,6 @@
     "allowUnsafeCode": false,
     "overrideReferences": true,
     "precompiledReferences": [
-        "Microsoft.ML.OnnxRuntime.dll",
         "GameCore_Runtime.dll"
     ],
     "autoReferenced": true,
@@ -15,4 +14,3 @@
     "versionDefines": [],
     "noEngineReferences": false
 }
-

@@ -4,7 +4,7 @@
  * 该脚本用于Unity编辑器下快速一键配置PoseAPI所需的主要组件，包括：
  *   1. 自动为GameObject添加 PoseDataSourceManager（并初始化为HTTP数据源模式）
  *   2. 自动为GameObject添加 PoseDataManager 并绑定数据源管理器
- *   3. 自动添加并连接可选组件：PoseUIRenderer、PoseCoordinateDisplay、InferenceEngineHandler、CoordinateRenderer
+ *   3. 自动添加并连接可选组件：PoseUIRenderer、PoseCoordinateDisplay、CoordinateRenderer
  *   4. 配置平滑参数（PoseSmoother 现在由 PoseDataManager 内部管理）
  * 可通过Inspector右键菜单或代码调用QuickSetup方法实现，无需手动挂载与初始化。
  * 适用于初次集成PoseAPI模块时的一键化便捷配置。
@@ -107,15 +107,7 @@ namespace PoseAI
                 // 注意：poseDataManager 和 poseUIRenderer 现在会自动初始化，无需手动设置
             }
 
-            // 6. 检查推理引擎（由 PoseDataManager 自动添加并连接，此处无需操作）
-            InferenceEngineHandler inferenceHandler = GetComponent<InferenceEngineHandler>();
-            if (inferenceHandler != null)
-            {
-                // 注意：poseDataManager 现在会在 PoseDataManager.Awake() 中自动设置，无需手动设置
-                Debug.Log("PoseAPISetup: InferenceEngineHandler 已就绪（自动连接）");
-            }
-
-            // 7. 检查并添加 CoordinateRenderer（如果启用）
+            // 6. 检查并添加 CoordinateRenderer（如果启用）
             if (addCoordinateRenderer)
             {
                 CoordinateRenderer coordRenderer = GetComponent<CoordinateRenderer>();
@@ -133,7 +125,6 @@ namespace PoseAI
                               $"- 自动启动: {autoStart}\n" +
                               $"- 运行时切换: {allowRuntimeSwitch}\n" +
                               $"- 编译时切换: {enableBuildTimeSwitch}\n" +
-                              $"- 推理引擎: {(manager.InferenceHandler != null ? "已就绪" : "未就绪")}\n" +
                               $"- UI渲染器: {(manager.poseUIRenderer != null ? "已连接" : "未连接")}\n" +
                               $"- 坐标显示: {(GetComponent<PoseCoordinateDisplay>() != null ? "已启用" : "未启用")}\n" +
                               $"- 坐标系渲染器: {(GetComponent<CoordinateRenderer>() != null ? "已启用" : "未启用")}\n" +

@@ -110,7 +110,6 @@ namespace PoseAI
         private RectTransform trailLContainer;
         private RectTransform trailRContainer;
         private PoseDataManager poseDataManager;
-        private InferenceEngineHandler inferenceHandler;
 
         private void Start()
         {
@@ -126,11 +125,6 @@ namespace PoseAI
             if (poseDataManager == null)
             {
                 poseDataManager = FindObjectOfType<PoseDataManager>();
-            }
-            
-            if (poseDataManager != null)
-            {
-                inferenceHandler = poseDataManager.InferenceHandler;
             }
         }
 
@@ -473,41 +467,8 @@ namespace PoseAI
 
         private void RenderTrails(PoseInferenceResult result)
         {
-            // 优先从缓存获取，如果缓存失效则尝试重新获取
-            if (inferenceHandler == null && poseDataManager != null)
-            {
-                inferenceHandler = poseDataManager.InferenceHandler;
-            }
-
-            if (inferenceHandler == null)
-            {
-                // 如果没有找到推理引擎，清空轨迹
-                ClearTrail(trailLImages, trailLRects);
-                ClearTrail(trailRImages, trailRRects);
-                return;
-            }
-
-            InferenceResult inferenceResult = inferenceHandler.LatestResult;
-            if (inferenceResult == null)
-            {
-                ClearTrail(trailLImages, trailLRects);
-                ClearTrail(trailRImages, trailRRects);
-                return;
-            }
-
-            // 转换左手腕轨迹：List<float[]> -> List<Vector2>
-            List<Vector2> trailL = ConvertTrailToVector2(inferenceResult.trailL);
-            List<Vector2> trailR = ConvertTrailToVector2(inferenceResult.trailR);
-
-            // 渲染轨迹
-            if (trailLContainer != null)
-            {
-                RenderTrail(trailL, trailLImages, trailLRects, trailLContainer, trailLColor);
-            }
-            if (trailRContainer != null)
-            {
-                RenderTrail(trailR, trailRImages, trailRRects, trailRContainer, trailRColor);
-            }
+            ClearTrail(trailLImages, trailLRects);
+            ClearTrail(trailRImages, trailRRects);
         }
 
         /// <summary>
@@ -640,4 +601,3 @@ namespace PoseAI
         }
     }
 }
-

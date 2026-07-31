@@ -16,21 +16,14 @@
 # [Pp]ackages/
 UserSettings/Layouts/default-2021.dwlt
 ProjectSettings/PackageManagerSettings.asset
-ProjectSettings/ProjectVersion.txt
 ProjectSettings/AutoStreamingSettings.asset
 ProjectSettings/EditorBuildSettings.asset
 
 # Unity 自动修改的文件（使用 skip-worktree 处理）
-Packages/packages-lock.json
 # Packages/*/Editor/**/*.meta
-
-# UnityMCP client config writer 自动备份（写入前生成 <file>.bak.<UTC>，主文件已落盘后无需保留）
-*.bak.[0-9]*Z
-*.bak.[0-9]*Z.*
 
 # Visual Studio / MonoDevelop generated files
 *.csproj
-!Assets/Plugins/UnityMCP/Tools~/index-service/UnityMcp.IndexService.csproj
 *.unityproj
 *.sln
 *.suo
@@ -104,7 +97,6 @@ __pycache__/
 *.py[cod]
 *$py.class
 .venv/
-Assets/Plugins/UnityMCP/Tools~/stdio/.venv/
 Assets/_OTHER_Ban/Plugins3rd/ConsoleShow_ForUnity5.unitypackage.meta
 Assets/CoreGameAssets/Bowing_Assets/3DMode/Objects/bowling.obj.meta
 Assets/CoreGameAssets/Bowing_Assets/3DMode/Objects/gutter.obj.meta
@@ -119,10 +111,6 @@ ProjectSettings/ShaderGraphSettings.asset
 # 忽略 .opencode 目录下的依赖与锁文件（本地 npm install 产物，勿提交）
 .opencode/node_modules/
 .opencode/package-lock.json
-Assets/Plugins/UnityMCP/Tools~/stdio/src/unity_mcp_stdio/unity_mcp_bridge.log
-
-# UnityMCP / 本地便笺：勿将 MCP 工具 JSON 或临时导出提交进仓库（同步见 Unity 菜单 Sync Cursor MCP Tool Descriptors 或插件内 sync_cursor_tools.sh → ~/.cursor/...）
 scratch/
-Assets/Plugins/UnityMCP/scratch/
 .trae/mcps/
 .gitnexus
