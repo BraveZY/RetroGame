@@ -800,7 +800,7 @@ namespace CinematicCameraPro
             Handles.DrawLine(anchor.position, handleInPos);
 
             EditorGUI.BeginChangeCheck();
-            Vector3 newHandleOut = Handles.FreeMoveHandle(handleOutPos, Quaternion.identity, handleSize, Vector3.zero, Handles.DotHandleCap);
+            var fmh_803_73_639210228350760900 = Quaternion.identity; Vector3 newHandleOut = Handles.FreeMoveHandle(handleOutPos, handleSize, Vector3.zero, Handles.DotHandleCap);
             if (EditorGUI.EndChangeCheck())
             {
                 RecordSceneDragUndo("Move Anchor Handle Out");
@@ -817,7 +817,7 @@ namespace CinematicCameraPro
             }
 
             EditorGUI.BeginChangeCheck();
-            Vector3 newHandleIn = Handles.FreeMoveHandle(handleInPos, Quaternion.identity, handleSize, Vector3.zero, Handles.DotHandleCap);
+            var fmh_820_71_639210228350781040 = Quaternion.identity; Vector3 newHandleIn = Handles.FreeMoveHandle(handleInPos, handleSize, Vector3.zero, Handles.DotHandleCap);
             if (EditorGUI.EndChangeCheck())
             {
                 RecordSceneDragUndo("Move Anchor Handle In");

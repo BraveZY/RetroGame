@@ -826,7 +826,7 @@ namespace CinematicCameraPro
             Handles.DrawLine(point.position, handleInPos);
 
             EditorGUI.BeginChangeCheck();
-            Vector3 newHandleOut = Handles.FreeMoveHandle(handleOutPos, Quaternion.identity, handleSize, Vector3.zero, Handles.DotHandleCap);
+            var fmh_829_73_639210228350841020 = Quaternion.identity; Vector3 newHandleOut = Handles.FreeMoveHandle(handleOutPos, handleSize, Vector3.zero, Handles.DotHandleCap);
             if (EditorGUI.EndChangeCheck())
             {
                 RecordSceneDragUndo("Move Embedded Handle Out");
@@ -842,7 +842,7 @@ namespace CinematicCameraPro
             }
 
             EditorGUI.BeginChangeCheck();
-            Vector3 newHandleIn = Handles.FreeMoveHandle(handleInPos, Quaternion.identity, handleSize, Vector3.zero, Handles.DotHandleCap);
+            var fmh_845_71_639210228350846450 = Quaternion.identity; Vector3 newHandleIn = Handles.FreeMoveHandle(handleInPos, handleSize, Vector3.zero, Handles.DotHandleCap);
             if (EditorGUI.EndChangeCheck())
             {
                 RecordSceneDragUndo("Move Embedded Handle In");
