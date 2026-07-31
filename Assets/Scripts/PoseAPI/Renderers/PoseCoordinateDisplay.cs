@@ -5,10 +5,12 @@ using UnityEngine.UI;
 namespace PoseAI
 {
     /// <summary>
-    /// 姿态关键点坐标显示组件
-    /// 在画面中显示手腕和脚腕等关键点的归一化坐标，跟随位置
+    /// 在骨架关键点旁显示手腕和脚踝坐标。
+    ///
+    /// 文字标签默认沿用场景配置；MacLocalYolo 已提供标准左右语义，
+    /// 因此不会再次交换 L/R 标签。
     /// </summary>
-    public class PoseCoordinateDisplay : MonoBehaviour
+    public partial class PoseCoordinateDisplay : MonoBehaviour
     {
         [HideInInspector]
         [Tooltip("姿态数据管理器（自动从同GameObject或场景中获取）")]
@@ -64,10 +66,10 @@ namespace PoseAI
         [Tooltip("文本相对于脚腕位置的Y轴偏移量（像素）。正值向上偏移，负值向下偏移。默认-15像素，表示文本显示在脚腕下方")]
         public float ankleTextYOffset = -15f;
 
-        [Tooltip("交换左右标签。如果Python层已进行镜像处理，需要勾选此项以确保左右标签正确显示")]
+        [Tooltip("交换左右文字标签。保留既有数据源的场景配置；MacLocalYolo 会自动忽略此项，避免重复交换")]
         public bool swapLabels = true;
 
-        [Tooltip("使用Features坐标系统。勾选后显示的是相对于髋部中心的归一化坐标（范围约-2.0到2.0），与CoordinateRenderer坐标系一致。取消勾选则显示MediaPipe归一化坐标（范围0.0到1.0）")]
+        [Tooltip("使用 Features 坐标系统。勾选后显示相对髋部中心的归一化坐标（约 -2.0 到 2.0）；取消后显示 PoseFrame20 坐标（0.0 到 1.0）")]
         public bool useFeaturesCoordinates = true;
 
         [Header("调试")]
@@ -266,122 +268,9 @@ namespace PoseAI
             rect.sizeDelta = new Vector2(200, 30);
         }
 
-        private void CreateUIElements()
-        {
-            // 查找或创建Canvas
-            Canvas canvas = FindObjectOfType<Canvas>();
-            if (canvas == null)
-            {
-                GameObject canvasObj = new GameObject("PoseCoordinateCanvas");
-                canvas = canvasObj.AddComponent<Canvas>();
-                canvas.renderMode = RenderMode.ScreenSpaceOverlay;
-                canvas.sortingOrder = 100; // 设置较高的排序顺序，确保显示在最上层
-                
-                CanvasScaler scaler = canvasObj.AddComponent<CanvasScaler>();
-                scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
-                scaler.referenceResolution = new Vector2(1920, 1080);
-                
-                canvasObj.AddComponent<GraphicRaycaster>();
-            }
-            else
-            {
-                // 如果Canvas已存在，确保设置正确
-                if (canvas.renderMode != RenderMode.ScreenSpaceOverlay)
-                {
-                    canvas.renderMode = RenderMode.ScreenSpaceOverlay;
-                }
-                // 确保Canvas在最上层
-                if (canvas.sortingOrder < 100)
-                {
-                    canvas.sortingOrder = 100;
-                }
-            }
-
-            Font font = GetBuiltinFont();
-            int maxSkeletons = 2; // 支持最多2个骨架
-
-            for (int i = 0; i < maxSkeletons; i++)
-            {
-                // 创建左手腕坐标文本
-                if (showWrists)
-                {
-                    Color color = (i == 0) ? new Color(0f, 1f, 0f, 1f) : new Color(0f, 1f, 1f, 1f);
-                    Text text = CreateTextObject(canvas.transform, $"LeftWristText_{i}", font, color);
-                    text.text = $"LW{i}: init";
-                    leftWristTexts.Add(text);
-                    if (i == 0) leftWristText = text;
-                    else leftWristText2 = text;
-                }
-
-                // 创建右手腕坐标文本
-                if (showWrists)
-                {
-                    Color color = (i == 0) ? new Color(0f, 1f, 1f, 1f) : new Color(0f, 0.5f, 1f, 1f);
-                    Text text = CreateTextObject(canvas.transform, $"RightWristText_{i}", font, color);
-                    text.text = $"RW{i}: init";
-                    rightWristTexts.Add(text);
-                    if (i == 0) rightWristText = text;
-                    else rightWristText2 = text;
-                }
-
-                // 创建左脚腕坐标文本
-                if (showAnkles)
-                {
-                    Color color = (i == 0) ? new Color(1f, 1f, 0f, 1f) : new Color(1f, 0.8f, 0f, 1f);
-                    Text text = CreateTextObject(canvas.transform, $"LeftAnkleText_{i}", font, color);
-                    text.text = $"LA{i}: init";
-                    leftAnkleTexts.Add(text);
-                    if (i == 0) leftAnkleText = text;
-                    else leftAnkleText2 = text;
-                }
-
-                // 创建右脚腕坐标文本
-                if (showAnkles)
-                {
-                    Color color = (i == 0) ? new Color(1f, 0.5f, 0f, 1f) : new Color(1f, 0.2f, 0f, 1f);
-                    Text text = CreateTextObject(canvas.transform, $"RightAnkleText_{i}", font, color);
-                    text.text = $"RA{i}: init";
-                    rightAnkleTexts.Add(text);
-                    if (i == 0) rightAnkleText = text;
-                    else rightAnkleText2 = text;
-                }
-            }
-        }
-
-        /// <summary>
-        /// 创建文本对象
-        /// </summary>
-        private Text CreateTextObject(Transform parent, string name, Font font, Color color)
-        {
-            GameObject obj = new GameObject(name);
-            obj.transform.SetParent(parent, false);
-
-            Text text = obj.AddComponent<Text>();
-            text.font = font;
-            text.fontSize = 19; // 24 * 0.8 = 19.2，取整为19
-            text.color = color;
-            text.alignment = TextAnchor.MiddleCenter;
-            text.horizontalOverflow = HorizontalWrapMode.Overflow;
-            text.verticalOverflow = VerticalWrapMode.Overflow;
-
-            // 添加轮廓
-            Outline outline = obj.AddComponent<Outline>();
-            outline.effectColor = Color.black;
-            outline.effectDistance = new Vector2(1, 1);
-
-            // 设置 RectTransform - 与 PoseUIRenderer 一致，锚点在左下角 (0,0)
-            RectTransform rect = obj.GetComponent<RectTransform>();
-            rect.anchorMin = Vector2.zero;
-            rect.anchorMax = Vector2.zero;
-            rect.pivot = new Vector2(0.5f, 0f); // pivot 在底部中心，文本显示在手腕上方
-            rect.sizeDelta = new Vector2(200, 30);
-
-            return text;
-        }
-
         private void Update()
         {
-            // 姿态数据管理器不可用时隐藏坐标文本。
+            // 姿态数据管理器缺失时无法获取统一 20 点骨架。
             if (poseDataManager == null)
             {
                 SetTextVisible(leftWristText, false);
@@ -397,45 +286,29 @@ namespace PoseAI
                 CacheCanvasReference();
             }
 
-            // 检查数据源
-            var poseResult = poseDataManager.LatestResult; // 原始 PoseInferenceResult
-            if (poseResult == null || !poseResult.detected)
+            PoseFrame20 frame = poseDataManager.LatestFrame20;
+            if (frame == null || !frame.Detected)
             {
                 UpdateTextVisibility(false); // 隐藏所有文本
                 return;
             }
 
-            // 优先使用 results 列表（多骨架）
-            if (poseResult.results != null && poseResult.results.Count > 0)
+            for (int i = 0; i < 2; i++)
             {
-                for (int i = 0; i < 2; i++) // 最多支持2人
+                if (i < frame.skeletons.Count)
                 {
-                    if (i < poseResult.results.Count)
-                    {
-                        var skeletonData = poseResult.results[i];
-                        UpdateSkeletonCoordinates(i, skeletonData.landmarks);
-                    }
-                    else
-                    {
-                        HideSkeletonCoordinates(i);
-                    }
+                    UpdateSkeletonCoordinates(i, frame.skeletons[i]);
                 }
-            }
-            // 回退到单骨架模式
-            else if (poseResult.result != null && poseResult.result.landmarks != null)
-            {
-                UpdateSkeletonCoordinates(0, poseResult.result.landmarks);
-                HideSkeletonCoordinates(1);
-            }
-            else
-            {
-                UpdateTextVisibility(false);
+                else
+                {
+                    HideSkeletonCoordinates(i);
+                }
             }
         }
 
-        private void UpdateSkeletonCoordinates(int index, Landmark[] landmarks)
+        private void UpdateSkeletonCoordinates(int index, PoseSkeleton20 skeleton)
         {
-            if (landmarks == null || landmarks.Length < 29)
+            if (skeleton == null)
             {
                 HideSkeletonCoordinates(index);
                 return;
@@ -445,31 +318,24 @@ namespace PoseAI
             float[] features = null;
             if (useFeaturesCoordinates)
             {
-                Vector2Int screenSize = new Vector2Int(Screen.width, Screen.height);
-                float stableScale = PoseGeometry.CalculateRobustBodyScale(landmarks, screenSize);
-                features = PoseNormalization.NormalizeLandmarks(
-                    landmarks,
-                    screenSize,
-                    mirror: false, // UI显示通常不需要再次镜像，因为landmarks已经是处理过的
-                    precomputedScale: stableScale,
-                    includeVisibility: false
-                );
+                features = PoseNormalization.NormalizeSkeleton20(
+                    skeleton,
+                    new Vector2Int(Screen.width, Screen.height));
             }
 
             // 更新手腕
             if (showWrists)
             {
-                int leftWristIdx = KeypointIndices.LEFT_WRIST;
-                int rightWristIdx = KeypointIndices.RIGHT_WRIST;
-                string leftLabel = swapLabels ? "R" : "L";
-                string rightLabel = swapLabels ? "L" : "R";
+                bool shouldSwapLabels = ShouldSwapLabels();
+                string leftLabel = shouldSwapLabels ? "R" : "L";
+                string rightLabel = shouldSwapLabels ? "L" : "R";
 
                 // 左手腕
                 if (index < leftWristTexts.Count && leftWristTexts[index] != null)
                 {
-                    if (leftWristIdx < landmarks.Length && landmarks[leftWristIdx].visibility > 0.3f)
+                    if (skeleton.TryGet(PoseJoint20Index.WristLeft, out PoseJoint20 leftWrist) && leftWrist.confidence > 0.3f)
                     {
-                        Vector2 screenPos = new Vector2(landmarks[leftWristIdx].x, landmarks[leftWristIdx].y);
+                        Vector2 screenPos = new Vector2(leftWrist.x, leftWrist.y);
                         if (useFeaturesCoordinates && features != null)
                         {
                             // features索引: 4*2=8 (左腕x), 9 (左腕y)
@@ -490,9 +356,9 @@ namespace PoseAI
                 // 右手腕
                 if (index < rightWristTexts.Count && rightWristTexts[index] != null)
                 {
-                    if (rightWristIdx < landmarks.Length && landmarks[rightWristIdx].visibility > 0.3f)
+                    if (skeleton.TryGet(PoseJoint20Index.WristRight, out PoseJoint20 rightWrist) && rightWrist.confidence > 0.3f)
                     {
-                        Vector2 screenPos = new Vector2(landmarks[rightWristIdx].x, landmarks[rightWristIdx].y);
+                        Vector2 screenPos = new Vector2(rightWrist.x, rightWrist.y);
                         if (useFeaturesCoordinates && features != null)
                         {
                             // features索引: 5*2=10 (右腕x), 11 (右腕y)
@@ -514,17 +380,16 @@ namespace PoseAI
             // 更新脚腕
             if (showAnkles)
             {
-                int leftAnkleIdx = KeypointIndices.LEFT_ANKLE;
-                int rightAnkleIdx = KeypointIndices.RIGHT_ANKLE;
-                string leftLabel = swapLabels ? "R" : "L";
-                string rightLabel = swapLabels ? "L" : "R";
+                bool shouldSwapLabels = ShouldSwapLabels();
+                string leftLabel = shouldSwapLabels ? "R" : "L";
+                string rightLabel = shouldSwapLabels ? "L" : "R";
 
                 // 左脚腕
                 if (index < leftAnkleTexts.Count && leftAnkleTexts[index] != null)
                 {
-                    if (leftAnkleIdx < landmarks.Length && landmarks[leftAnkleIdx].visibility > 0.3f)
+                    if (skeleton.TryGet(PoseJoint20Index.AnkleLeft, out PoseJoint20 leftAnkle) && leftAnkle.confidence > 0.3f)
                     {
-                        Vector2 screenPos = new Vector2(landmarks[leftAnkleIdx].x, landmarks[leftAnkleIdx].y);
+                        Vector2 screenPos = new Vector2(leftAnkle.x, leftAnkle.y);
                         if (useFeaturesCoordinates && features != null)
                         {
                             // features索引: 10*2=20 (左踝x), 21 (左踝y)
@@ -545,9 +410,9 @@ namespace PoseAI
                 // 右脚腕
                 if (index < rightAnkleTexts.Count && rightAnkleTexts[index] != null)
                 {
-                    if (rightAnkleIdx < landmarks.Length && landmarks[rightAnkleIdx].visibility > 0.3f)
+                    if (skeleton.TryGet(PoseJoint20Index.AnkleRight, out PoseJoint20 rightAnkle) && rightAnkle.confidence > 0.3f)
                     {
-                        Vector2 screenPos = new Vector2(landmarks[rightAnkleIdx].x, landmarks[rightAnkleIdx].y);
+                        Vector2 screenPos = new Vector2(rightAnkle.x, rightAnkle.y);
                         if (useFeaturesCoordinates && features != null)
                         {
                             // features索引: 11*2=22 (右踝x), 23 (右踝y)
@@ -564,110 +429,6 @@ namespace PoseAI
                         SetTextVisible(rightAnkleTexts[index], false);
                     }
                 }
-            }
-        }
-
-        private void HideSkeletonCoordinates(int index)
-        {
-            if (index < leftWristTexts.Count) SetTextVisible(leftWristTexts[index], false);
-            if (index < rightWristTexts.Count) SetTextVisible(rightWristTexts[index], false);
-            if (index < leftAnkleTexts.Count) SetTextVisible(leftAnkleTexts[index], false);
-            if (index < rightAnkleTexts.Count) SetTextVisible(rightAnkleTexts[index], false);
-        }
-
-        private void UpdateTextVisibility(bool visible)
-        {
-            foreach (var t in leftWristTexts) SetTextVisible(t, visible);
-            foreach (var t in rightWristTexts) SetTextVisible(t, visible);
-            foreach (var t in leftAnkleTexts) SetTextVisible(t, visible);
-            foreach (var t in rightAnkleTexts) SetTextVisible(t, visible);
-        }
-
-        /// <summary>
-        /// 更新手腕文本位置和内容（使用 MediaPipe 归一化坐标）
-        /// </summary>
-        private void UpdateWristText(Text text, Vector2 pos, string label)
-        {
-            if (text == null) return;
-
-            string format = $"F{decimalPlaces}";
-            text.text = $"{label}: ({pos.x.ToString(format)}, {pos.y.ToString(format)})";
-
-            // 使用与 PoseUIRenderer 相同的坐标转换方式
-            // pos 是原始的 MediaPipe 归一化坐标（0-1，左上角为原点）
-            Vector2 canvasPos = NormalizedToScreenPosition(pos.x, pos.y);
-
-            // 设置文本位置（在手腕上方）
-            RectTransform rect = text.GetComponent<RectTransform>();
-            rect.anchoredPosition = canvasPos + new Vector2(0, textYOffset);
-
-            SetTextVisible(text, true);
-        }
-
-        /// <summary>
-        /// 更新手腕文本位置和内容（位置用 MediaPipe 坐标，内容显示 Features 坐标）
-        /// </summary>
-        private void UpdateWristTextWithFeatures(Text text, Vector2 screenPos, Vector2 featuresPos, string label)
-        {
-            if (text == null) return;
-
-            string format = $"F{decimalPlaces}";
-            // 显示 Features 坐标（髋部中心为原点，与 CoordinateRenderer 一致）
-            text.text = $"{label}W: ({featuresPos.x.ToString(format)}, {featuresPos.y.ToString(format)})";
-
-            // 文本位置：使用 MediaPipe 归一化坐标定位
-            Vector2 canvasPos = NormalizedToScreenPosition(screenPos.x, screenPos.y);
-
-            // 设置文本位置（在手腕上方）
-            RectTransform rect = text.GetComponent<RectTransform>();
-            rect.anchoredPosition = canvasPos + new Vector2(0, textYOffset);
-
-            SetTextVisible(text, true);
-        }
-
-        /// <summary>
-        /// 更新脚腕文本位置和内容（位置用 MediaPipe 坐标，内容显示 Features 坐标）
-        /// </summary>
-        private void UpdateAnkleTextWithFeatures(Text text, Vector2 screenPos, Vector2 featuresPos, string label)
-        {
-            if (text == null) return;
-
-            string format = $"F{decimalPlaces}";
-            // 显示 Features 坐标（髋部中心为原点，与 CoordinateRenderer 一致）
-            text.text = $"{label}A: ({featuresPos.x.ToString(format)}, {featuresPos.y.ToString(format)})";
-
-            // 文本位置：使用 MediaPipe 归一化坐标定位
-            Vector2 canvasPos = NormalizedToScreenPosition(screenPos.x, screenPos.y);
-
-            // 设置文本位置（在脚腕下方）
-            RectTransform rect = text.GetComponent<RectTransform>();
-            rect.anchoredPosition = canvasPos + new Vector2(0, ankleTextYOffset);
-
-            SetTextVisible(text, true);
-        }
-
-        /// <summary>
-        /// 将归一化坐标转换为Canvas屏幕坐标
-        /// 使用统一的 CoordinateConverter 工具类
-        /// </summary>
-        private Vector2 NormalizedToScreenPosition(float x, float y)
-        {
-            if (canvasRect == null)
-                return Vector2.zero;
-
-            return CoordinateConverter.NormalizedToScreenPosition(
-                x, y, canvasRect, poseUIRenderer
-            );
-        }
-
-        /// <summary>
-        /// 设置文本可见性
-        /// </summary>
-        private void SetTextVisible(Text text, bool visible)
-        {
-            if (text != null && text.gameObject.activeSelf != visible)
-            {
-                text.gameObject.SetActive(visible);
             }
         }
 

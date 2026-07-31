@@ -1,38 +1,20 @@
-/***************************************************************************
- * 文件：CoordinateConverter.cs
- * 位置：Assets/Scripts/PoseAPI/Renderers/
- * 
- * 功能简介：
- *   坐标转换工具类，提供统一的坐标系统转换方法，确保全项目坐标转换的一致性。
- *   主要用于将 MediaPipe 归一化坐标转换为 Unity Canvas 坐标。
- * 
- * 关键特性：
- *   - 统一处理 MediaPipe 归一化坐标到 Unity Canvas 坐标的转换
- *   - 支持全屏和指定区域两种显示模式
- *   - 自动处理 Y 轴翻转（MediaPipe Y向下，Unity Canvas Y向上）
- *   - 提供多种重载方法，适应不同使用场景
- * 
- * 使用场景：
- *   - PoseUIRenderer：渲染骨架和关键点
- *   - PoseCoordinateDisplay：定位坐标文本
- *   - 所有需要将 MediaPipe 坐标转换为 UI 坐标的场景
- ***************************************************************************/
-
 using UnityEngine;
 
 namespace PoseAI
 {
     /// <summary>
-    /// 坐标转换工具类
-    /// 提供统一的坐标系统转换方法
+    /// 把 PoseFrame20 的左上原点归一化坐标转换为 Canvas 坐标。
+    ///
+    /// 职责：
+    /// - 统一处理 PoseAPI 坐标到 Canvas 坐标的 Y 轴方向转换。
+    /// - 支持全屏或指定显示区域，并按 source 宽高比保留画面比例。
+    /// - 为骨架 UI 与坐标文字提供同一套定位规则。
     /// </summary>
     public static class CoordinateConverter
     {
-        /// <summary>
-        /// 将 MediaPipe 归一化坐标转换为 Unity Canvas 坐标
-        /// </summary>
-        /// <param name="x">MediaPipe 归一化 X 坐标 (0~1)</param>
-        /// <param name="y">MediaPipe 归一化 Y 坐标 (0~1)</param>
+        /// <summary>将 PoseFrame20 归一化坐标转换为指定 Canvas 区域坐标。</summary>
+        /// <param name="x">PoseFrame20 归一化 X 坐标 (0~1)</param>
+        /// <param name="y">PoseFrame20 归一化 Y 坐标 (0~1)</param>
         /// <param name="canvasRect">Canvas 的 RectTransform</param>
         /// <param name="useFullScreen">是否使用全屏显示</param>
         /// <param name="displayWidth">显示区域宽度（仅在非全屏模式下使用）</param>
@@ -95,11 +77,9 @@ namespace PoseAI
             }
         }
 
-        /// <summary>
-        /// 将 MediaPipe 归一化坐标转换为 Unity Canvas 坐标（使用 Canvas 组件）
-        /// </summary>
-        /// <param name="x">MediaPipe 归一化 X 坐标 (0~1)</param>
-        /// <param name="y">MediaPipe 归一化 Y 坐标 (0~1)</param>
+        /// <summary>通过 Canvas 组件将 PoseFrame20 坐标转换为界面坐标。</summary>
+        /// <param name="x">PoseFrame20 归一化 X 坐标 (0~1)</param>
+        /// <param name="y">PoseFrame20 归一化 Y 坐标 (0~1)</param>
         /// <param name="canvas">Canvas 组件</param>
         /// <param name="useFullScreen">是否使用全屏显示</param>
         /// <param name="displayWidth">显示区域宽度（仅在非全屏模式下使用）</param>
@@ -122,11 +102,9 @@ namespace PoseAI
             return NormalizedToScreenPosition(x, y, canvasRect, useFullScreen, displayWidth, displayHeight, sourceAspectRatio);
         }
 
-        /// <summary>
-        /// 将 MediaPipe 归一化坐标转换为 Unity Canvas 坐标（从 PoseUIRenderer 获取参数）
-        /// </summary>
-        /// <param name="x">MediaPipe 归一化 X 坐标 (0~1)</param>
-        /// <param name="y">MediaPipe 归一化 Y 坐标 (0~1)</param>
+        /// <summary>沿用 PoseUIRenderer 的显示参数转换 PoseFrame20 坐标。</summary>
+        /// <param name="x">PoseFrame20 归一化 X 坐标 (0~1)</param>
+        /// <param name="y">PoseFrame20 归一化 Y 坐标 (0~1)</param>
         /// <param name="canvasRect">Canvas 的 RectTransform</param>
         /// <param name="poseUIRenderer">PoseUIRenderer 组件（用于获取显示参数）</param>
         /// <returns>Unity Canvas 坐标（原点在左下角）</returns>
@@ -153,4 +131,3 @@ namespace PoseAI
         }
     }
 }
-

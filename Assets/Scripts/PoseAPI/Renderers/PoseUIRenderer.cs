@@ -5,8 +5,12 @@ using System.Collections.Generic;
 namespace PoseAI
 {
     /// <summary>
-    /// UI屏幕坐标空间的骨架渲染器
-    /// 在Canvas上绘制骨架线条和关键点
+    /// PoseAPI 标准化 20 点骨架的 UI 渲染器。
+    ///
+    /// 职责：
+    /// - 只使用项目统一的 20 点索引，不读取 MediaPipe 33 点数组。
+    /// - 在 Canvas 上绘制核心关节和连线，并在低置信度时隐藏它们。
+    /// - 保持输入坐标为左上原点的 0..1，避免重复镜像或坐标翻转。
     /// </summary>
     public class PoseUIRenderer : MonoBehaviour
     {
@@ -21,9 +25,6 @@ namespace PoseAI
         [Tooltip("是否显示骨架连线")]
         public bool showSkeleton = true;
         
-        [Tooltip("是否显示轨迹")]
-        public bool showTrails = true;
-
         [Header("样式设置")]
         [Tooltip("关键点大小（像素）")]
         public float landmarkSize = 8f;
@@ -31,17 +32,11 @@ namespace PoseAI
         [Tooltip("骨架线条宽度（像素）")]
         public float lineWidth = 3f;
         
-        [Tooltip("轨迹线条宽度（像素）")]
-        public float trailWidth = 2f;
-
         [Header("颜色设置")]
         public Color landmarkColor = Color.yellow;
         public Color landmarkColor2 = Color.cyan;
         public Color skeletonColor = Color.green;
         public Color skeletonColor2 = Color.cyan;
-        public Color trailLColor = Color.cyan;
-        public Color trailRColor = Color.magenta;
-
         [HideInInspector]
         public bool useFullScreen = true;
         
@@ -54,43 +49,45 @@ namespace PoseAI
         [HideInInspector]
         public float sourceAspectRatio = 1.7778f;
 
-        // MediaPipe骨架连接定义（仅保留需要的关键点）
-        // 保留：0(nose), 11-16(肩膀到手腕), 23-28(髋部到脚踝)
-        // 移除：1-10(面部其他), 17-22(手部), 29-32(脚部)
+        // 标准 20 点骨架连接；不连接 Mac COCO 近似生成的手和脚，避免零长度线条。
         private static readonly int[][] SKELETON_CONNECTIONS = new int[][]
         {
             // 躯干核心连接
-            new int[] {11, 12},  // 左肩-右肩
-            new int[] {11, 23},  // 左肩-左髋
-            new int[] {12, 24},  // 右肩-右髋
-            new int[] {23, 24},  // 左髋-右髋
+            new int[] {(int)PoseJoint20Index.ShoulderLeft, (int)PoseJoint20Index.ShoulderRight},
+            new int[] {(int)PoseJoint20Index.ShoulderLeft, (int)PoseJoint20Index.HipLeft},
+            new int[] {(int)PoseJoint20Index.ShoulderRight, (int)PoseJoint20Index.HipRight},
+            new int[] {(int)PoseJoint20Index.HipLeft, (int)PoseJoint20Index.HipRight},
             
             // 左臂连接（到手腕）
-            new int[] {11, 13},  // 左肩-左肘
-            new int[] {13, 15},  // 左肘-左腕
+            new int[] {(int)PoseJoint20Index.ShoulderLeft, (int)PoseJoint20Index.ElbowLeft},
+            new int[] {(int)PoseJoint20Index.ElbowLeft, (int)PoseJoint20Index.WristLeft},
             
             // 右臂连接（到手腕）
-            new int[] {12, 14},  // 右肩-右肘
-            new int[] {14, 16},  // 右肘-右腕
+            new int[] {(int)PoseJoint20Index.ShoulderRight, (int)PoseJoint20Index.ElbowRight},
+            new int[] {(int)PoseJoint20Index.ElbowRight, (int)PoseJoint20Index.WristRight},
             
             // 左腿连接（到脚踝）
-            new int[] {23, 25},  // 左髋-左膝
-            new int[] {25, 27},  // 左膝-左脚踝
+            new int[] {(int)PoseJoint20Index.HipLeft, (int)PoseJoint20Index.KneeLeft},
+            new int[] {(int)PoseJoint20Index.KneeLeft, (int)PoseJoint20Index.AnkleLeft},
             
             // 右腿连接（到脚踝）
-            new int[] {24, 26},  // 右髋-右膝
-            new int[] {26, 28}   // 右膝-右脚踝
+            new int[] {(int)PoseJoint20Index.HipRight, (int)PoseJoint20Index.KneeRight},
+            new int[] {(int)PoseJoint20Index.KneeRight, (int)PoseJoint20Index.AnkleRight}
         };
         
-        // 需要显示的关键点索引：0(nose), 11-16(肩膀到手腕), 23-28(髋部到脚踝)
+        // 保持旧 UI 的核心显示范围：头、肩、肘、腕、髋、膝、踝。
         private static readonly int[] VISIBLE_LANDMARK_INDICES = new int[]
         {
-            0,   // nose
-            11, 12, 13, 14, 15, 16,  // 肩膀到手腕
-            23, 24, 25, 26, 27, 28   // 髋部到脚踝
+            (int)PoseJoint20Index.Head,
+            (int)PoseJoint20Index.ShoulderLeft, (int)PoseJoint20Index.ShoulderRight,
+            (int)PoseJoint20Index.ElbowLeft, (int)PoseJoint20Index.ElbowRight,
+            (int)PoseJoint20Index.WristLeft, (int)PoseJoint20Index.WristRight,
+            (int)PoseJoint20Index.HipLeft, (int)PoseJoint20Index.HipRight,
+            (int)PoseJoint20Index.KneeLeft, (int)PoseJoint20Index.KneeRight,
+            (int)PoseJoint20Index.AnkleLeft, (int)PoseJoint20Index.AnkleRight
         };
 
-        private PoseInferenceResult currentPose = null;
+        private PoseFrame20 currentPoseFrame;
         private RectTransform canvasRect;
         private RectTransform containerRect;
         
@@ -102,30 +99,10 @@ namespace PoseAI
         // 最大支持骨架数量
         private const int MAX_SKELETONS = 2;
         
-        // 轨迹渲染（使用Image组件）
-        private List<Image> trailLImages = new List<Image>();
-        private List<RectTransform> trailLRects = new List<RectTransform>();
-        private List<Image> trailRImages = new List<Image>();
-        private List<RectTransform> trailRRects = new List<RectTransform>();
-        private RectTransform trailLContainer;
-        private RectTransform trailRContainer;
-        private PoseDataManager poseDataManager;
-
         private void Start()
         {
             InitializeCanvas();
             InitializeRenderers();
-
-            // 优先从同 GameObject 获取组件引用
-            if (poseDataManager == null)
-            {
-                poseDataManager = GetComponent<PoseDataManager>();
-            }
-            // 如果同 GameObject 上没有，再查找场景中的组件
-            if (poseDataManager == null)
-            {
-                poseDataManager = FindObjectOfType<PoseDataManager>();
-            }
         }
 
         private void InitializeCanvas()
@@ -171,8 +148,8 @@ namespace PoseAI
             {
                 for (int s = 0; s < MAX_SKELETONS; s++)
                 {
-                    Image[] landmarkImages = new Image[33];
-                    for (int i = 0; i < 33; i++)
+                    Image[] landmarkImages = new Image[PoseSkeleton20.JointCount];
+                    for (int i = 0; i < PoseSkeleton20.JointCount; i++)
                     {
                         GameObject landmarkObj = new GameObject($"Landmark_{s}_{i}");
                         landmarkObj.transform.SetParent(containerRect, false);
@@ -251,91 +228,54 @@ namespace PoseAI
                 }
             }
 
-            // 创建轨迹容器
-            if (showTrails)
-            {
-                // 左手腕轨迹容器
-                GameObject trailLObj = new GameObject("TrailL");
-                trailLObj.transform.SetParent(containerRect, false);
-                trailLContainer = trailLObj.AddComponent<RectTransform>();
-                trailLContainer.anchorMin = Vector2.zero;
-                trailLContainer.anchorMax = Vector2.one;
-                trailLContainer.sizeDelta = Vector2.zero;
-                trailLContainer.anchoredPosition = Vector2.zero;
-
-                // 右手腕轨迹容器
-                GameObject trailRObj = new GameObject("TrailR");
-                trailRObj.transform.SetParent(containerRect, false);
-                trailRContainer = trailRObj.AddComponent<RectTransform>();
-                trailRContainer.anchorMin = Vector2.zero;
-                trailRContainer.anchorMax = Vector2.one;
-                trailRContainer.sizeDelta = Vector2.zero;
-                trailRContainer.anchoredPosition = Vector2.zero;
-            }
         }
 
         /// <summary>
-        /// 更新姿态数据并渲染
+        /// 用标准化 20 点姿态帧更新骨架 UI。
         /// </summary>
-        public void UpdatePose(PoseInferenceResult result)
+        public void UpdatePoseFrame(PoseFrame20 frame)
         {
-            currentPose = result;
-            
-            // 优先使用 results 列表（多骨架）
-            if (result != null && result.results != null && result.results.Count > 0)
+            currentPoseFrame = frame;
+            if (frame != null && frame.sourceAspectRatio > 0f)
             {
-                // 渲染所有检测到的骨架
+                sourceAspectRatio = frame.sourceAspectRatio;
+            }
+            
+            if (frame != null && frame.Detected)
+            {
                 for (int i = 0; i < MAX_SKELETONS; i++)
                 {
-                    if (i < result.results.Count)
+                    if (i < frame.skeletons.Count)
                     {
-                        var skeletonData = result.results[i];
-                        RenderSkeletonIndex(i, skeletonData.landmarks);
+                        RenderSkeletonIndex(i, frame.skeletons[i]);
                     }
                     else
                     {
-                        // 隐藏多余的骨架UI
                         HideSkeletonIndex(i);
                     }
-                }
-            }
-            // 回退到单骨架模式（兼容旧数据）
-            else if (result != null && result.detected && result.result != null && result.result.landmarks != null)
-            {
-                RenderSkeletonIndex(0, result.result.landmarks);
-                // 隐藏其他骨架
-                for (int i = 1; i < MAX_SKELETONS; i++)
-                {
-                    HideSkeletonIndex(i);
                 }
             }
             else
             {
                 ClearPose();
-                return;
             }
 
-            // 渲染轨迹 (目前仅支持单人轨迹，或需要进一步扩展)
-            if (showTrails)
-            {
-                RenderTrails(result);
-            }
         }
 
-        private void RenderSkeletonIndex(int index, Landmark[] landmarks)
+        private void RenderSkeletonIndex(int index, PoseSkeleton20 skeleton)
         {
             if (index >= MAX_SKELETONS) return;
 
             // 渲染关键点
             if (showLandmarks && index < landmarkImagesList.Count)
             {
-                RenderLandmarks(landmarks, landmarkImagesList[index]);
+                RenderLandmarks(skeleton, landmarkImagesList[index]);
             }
 
             // 渲染骨架
             if (showSkeleton && index < skeletonLineImagesList.Count && index < skeletonLineRectsList.Count)
             {
-                RenderSkeleton(landmarks, skeletonLineImagesList[index], skeletonLineRectsList[index]);
+                RenderSkeleton(skeleton, skeletonLineImagesList[index], skeletonLineRectsList[index]);
             }
         }
 
@@ -367,7 +307,7 @@ namespace PoseAI
         /// </summary>
         public void ClearPose()
         {
-            currentPose = null;
+            currentPoseFrame = null;
 
             // 隐藏所有骨架
             for (int i = 0; i < MAX_SKELETONS; i++)
@@ -375,14 +315,11 @@ namespace PoseAI
                 HideSkeletonIndex(i);
             }
 
-            // 清除轨迹
-            ClearTrail(trailLImages, trailLRects);
-            ClearTrail(trailRImages, trailRRects);
         }
 
-        private void RenderLandmarks(Landmark[] landmarks, Image[] landmarkImages)
+        private void RenderLandmarks(PoseSkeleton20 skeleton, Image[] landmarkImages)
         {
-            if (landmarks == null || landmarkImages == null || canvasRect == null)
+            if (skeleton == null || landmarkImages == null || canvasRect == null)
                 return;
 
             float visibilityThreshold = 0.3f;
@@ -395,10 +332,10 @@ namespace PoseAI
             // 只显示需要的关键点
             foreach (int idx in VISIBLE_LANDMARK_INDICES)
             {
-                if (idx < landmarks.Length && idx < landmarkImages.Length && 
-                    landmarks[idx] != null && landmarks[idx].visibility > visibilityThreshold)
+                if (idx < landmarkImages.Length && skeleton.joints[idx].tracked &&
+                    skeleton.joints[idx].confidence > visibilityThreshold)
                 {
-                    Vector2 screenPos = NormalizedToScreenPosition(landmarks[idx].x, landmarks[idx].y);
+                    Vector2 screenPos = NormalizedToScreenPosition(skeleton.joints[idx].x, skeleton.joints[idx].y);
                     RectTransform rect = landmarkImages[idx].GetComponent<RectTransform>();
                     rect.anchoredPosition = screenPos;
                     landmarkImages[idx].gameObject.SetActive(true);
@@ -406,9 +343,9 @@ namespace PoseAI
             }
         }
 
-        private void RenderSkeleton(Landmark[] landmarks, Image[] skeletonLineImages, RectTransform[] skeletonLineRects)
+        private void RenderSkeleton(PoseSkeleton20 skeleton, Image[] skeletonLineImages, RectTransform[] skeletonLineRects)
         {
-            if (landmarks == null || skeletonLineImages == null || canvasRect == null)
+            if (skeleton == null || skeletonLineImages == null || canvasRect == null)
             {
                 if (skeletonLineImages != null)
                 {
@@ -420,34 +357,24 @@ namespace PoseAI
                 return;
             }
 
-            if (landmarks.Length < 17)
-            {
-                foreach (var img in skeletonLineImages)
-                {
-                    if (img != null) img.gameObject.SetActive(false);
-                }
-                return;
-            }
-
             for (int i = 0; i < SKELETON_CONNECTIONS.Length && i < skeletonLineImages.Length; i++)
             {
                 int startIdx = SKELETON_CONNECTIONS[i][0];
                 int endIdx = SKELETON_CONNECTIONS[i][1];
 
-                if (startIdx < landmarks.Length && endIdx < landmarks.Length &&
-                    landmarks[startIdx] != null && landmarks[endIdx] != null)
+                if (skeleton.joints[startIdx].tracked && skeleton.joints[endIdx].tracked)
                 {
                     float visibilityThreshold = 0.3f;
-                    if (landmarks[startIdx].visibility > visibilityThreshold && 
-                        landmarks[endIdx].visibility > visibilityThreshold)
+                    if (skeleton.joints[startIdx].confidence > visibilityThreshold &&
+                        skeleton.joints[endIdx].confidence > visibilityThreshold)
                     {
                         Vector2 startPos = NormalizedToScreenPosition(
-                            landmarks[startIdx].x, 
-                            landmarks[startIdx].y
+                            skeleton.joints[startIdx].x,
+                            skeleton.joints[startIdx].y
                         );
                         Vector2 endPos = NormalizedToScreenPosition(
-                            landmarks[endIdx].x, 
-                            landmarks[endIdx].y
+                            skeleton.joints[endIdx].x,
+                            skeleton.joints[endIdx].y
                         );
 
                         DrawUILine(skeletonLineRects[i], skeletonLineImages[i], startPos, endPos, lineWidth);
@@ -462,94 +389,6 @@ namespace PoseAI
                 {
                     skeletonLineImages[i].gameObject.SetActive(false);
                 }
-            }
-        }
-
-        private void RenderTrails(PoseInferenceResult result)
-        {
-            ClearTrail(trailLImages, trailLRects);
-            ClearTrail(trailRImages, trailRRects);
-        }
-
-        /// <summary>
-        /// 将轨迹数据从 List<float[]> 转换为 List<Vector2>
-        /// float[] 格式：[x, y] 归一化坐标
-        /// </summary>
-        private List<Vector2> ConvertTrailToVector2(List<float[]> trail)
-        {
-            List<Vector2> result = new List<Vector2>();
-            if (trail == null || trail.Count == 0)
-            {
-                return result;
-            }
-
-            foreach (float[] point in trail)
-            {
-                if (point != null && point.Length >= 2)
-                {
-                    result.Add(new Vector2(point[0], point[1]));
-                }
-            }
-
-            return result;
-        }
-
-        private void RenderTrail(List<Vector2> trail, List<Image> images, List<RectTransform> rects, RectTransform container, Color color)
-        {
-            if (trail == null || trail.Count < 2)
-            {
-                ClearTrail(images, rects);
-                return;
-            }
-
-            // 确保有足够的Image对象
-            int neededCount = trail.Count - 1; // 需要n-1条线段连接n个点
-            while (images.Count < neededCount)
-            {
-                GameObject lineObj = new GameObject($"TrailLine_{images.Count}");
-                lineObj.transform.SetParent(container, false);
-                
-                Image img = lineObj.AddComponent<Image>();
-                img.color = color;
-                
-                RectTransform rect = lineObj.GetComponent<RectTransform>();
-                rect.anchorMin = Vector2.zero;
-                rect.anchorMax = Vector2.zero;
-                // pivot 设置为左侧中心 (0, 0.5)，这样旋转时从起点开始延伸
-                rect.pivot = new Vector2(0f, 0.5f);
-                
-                // 创建白色sprite用于线条
-                Texture2D texture = new Texture2D(1, 1);
-                texture.SetPixel(0, 0, Color.white);
-                texture.Apply();
-                img.sprite = Sprite.Create(texture, new Rect(0, 0, 1, 1), Vector2.one * 0.5f);
-                
-                images.Add(img);
-                rects.Add(rect);
-            }
-
-            // 渲染轨迹线段
-            for (int i = 0; i < neededCount; i++)
-            {
-                Vector2 startPos = NormalizedToScreenPosition(trail[i].x, trail[i].y);
-                Vector2 endPos = NormalizedToScreenPosition(trail[i + 1].x, trail[i + 1].y);
-                
-                DrawUILine(rects[i], images[i], startPos, endPos, trailWidth);
-                images[i].gameObject.SetActive(true);
-            }
-
-            // 隐藏多余的线段
-            for (int i = neededCount; i < images.Count; i++)
-            {
-                images[i].gameObject.SetActive(false);
-            }
-        }
-
-        private void ClearTrail(List<Image> images, List<RectTransform> rects)
-        {
-            foreach (var img in images)
-            {
-                if (img != null) img.gameObject.SetActive(false);
             }
         }
 

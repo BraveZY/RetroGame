@@ -3,8 +3,8 @@
     "rootNamespace": "",
     "references": [
         "GUID:8552293f93f4b184fb854cad4dbcd03e",
-        "GUID:649ddcee173fb5843ae447613df380cf",
-        "PoseAPI"
+        "PoseAPI",
+        "GUID:59ec8e2e4c974da5ad5566c3e0bfaa6b"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

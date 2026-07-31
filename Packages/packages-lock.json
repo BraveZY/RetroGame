@@ -7,7 +7,7 @@
       "dependencies": {}
     },
     "com.njljh.unitymcp": {
-      "version": "https://github.com/dalong1225/UnityCaptain-UPM.git#v1.1.23",
+      "version": "https://github.com/dalong1225/UnityCaptain-UPM.git#v1.2.1",
       "depth": 0,
       "source": "git",
       "dependencies": {
@@ -15,7 +15,7 @@
         "com.unity.textmeshpro": "3.0.6",
         "com.unity.ugui": "1.0.0"
       },
-      "hash": "1182501f32f21aad1bf1e68300e999d0aa14dab5"
+      "hash": "23aed82670462bb755e146d4ec817bb0159364ee"
     },
     "com.unity.2d.sprite": {
       "version": "1.0.0",

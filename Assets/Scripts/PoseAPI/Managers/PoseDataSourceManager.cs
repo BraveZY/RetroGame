@@ -1,75 +1,66 @@
-/*
- * -----------------------------------------------------------------------
- * PoseDataSourceManager.cs
- * -----------------------------------------------------------------------
- * 功能说明:
- * 
- * 这是姿态数据源管理器组件（PoseDataSourceManager），用于统一管理和切换 2 类姿态数据源（HTTP/Python后端、SDK/盒子端YOLO）。
- * 
- * 主要职责如下：
- *   - 根据Inspector配置、编译宏、运行平台自动决定激活的数据源类型
- *   - 创建、销毁、切换姿态数据源（支持运行时热切换和编译时自动切换策略）
- *   - 通过统一事件（OnResultReceived, OnError, OnConnected, OnDisconnected）向上层转发推理结果、连接状态与异常
- *   - 保证数据源的全生命周期（创建、启动、停止、销毁）与环境配置一致，避免资源泄漏和意外状态
- *   - 对外暴露简洁、稳定的启动/停止API，并可通过公共属性快速获知接收状态、连接状态、错误信息
- * 
- * 使用说明:
- *   - 可在Unity Inspector界面设置数据源类型、常用参数及是否允许运行时切换
- *   - 支持通过编译宏/平台自动启用HTTP或SDK数据源，适用于不同部署环境
- *   - 建议通过事件订阅方式获取上层所需的推理结果和错误信息
- * 
- * 作者: （可填写姓名/日期/联系邮箱）
- * -----------------------------------------------------------------------
- */
-
 using System;
 using UnityEngine;
 
 namespace PoseAI
 {
     /// <summary>
-    /// 姿态数据源管理器
-    /// 负责管理数据源的创建、切换和生命周期
-    /// 支持运行时切换数据源，统一事件转发给上层组件
+    /// 姿态数据源管理器负责按当前平台创建、启动和回收唯一的数据源。
+    ///
+    /// 职责：
+    /// - 保存数据源、玩家模式和启动方式等唯一运行配置。
+    /// - 区分“创建数据源”和“开始接收”，让 Auto Start 真正控制设备占用。
+    /// - 转发 20 点骨架、连接和错误，并提供可观察的运行状态。
+    /// - 切换或重试时完整解绑并释放旧数据源。
     /// </summary>
     public class PoseDataSourceManager : MonoBehaviour
     {
         [Header("数据源配置")]
-        [Tooltip("数据源类型：HTTP（Python后端）或SDK（电视盒子YOLO SDK）")]
-        public PoseDataSourceType sourceType = PoseDataSourceType.HTTP;
+        [Tooltip("GameCore SDK 支持 Android Player 与 Windows Editor PlayMode；macOS 使用 Mac Local YOLO。Android 与 Windows会固定使用 GameCore SDK。")]
+        public PoseDataSourceType sourceType = PoseDataSourceType.SDK;
 
-        [Tooltip("数据源配置")]
+        [Tooltip("当前数据源的玩家模式和平台参数")]
         public PoseDataSourceConfig config = new PoseDataSourceConfig();
 
-        [Header("编译时自动切换")]
-        [Tooltip("是否启用编译时自动切换（打包时根据平台或宏定义自动选择数据源）")]
-        public bool enableBuildTimeSwitch = true;
+        [Header("启动配置")]
+        [Tooltip("进入 Play Mode 后是否自动启动姿态数据源")]
+        public bool autoStart;
 
-        [Header("运行时切换")]
         [Tooltip("是否允许运行时切换数据源")]
         public bool allowRuntimeSwitch = true;
 
-        [Header("状态")]
-        [SerializeField] private IPoseDataSource currentDataSource;
-        [SerializeField] private bool isInitialized = false;
+        private PoseAPIRuntimeStatus status = PoseAPIRuntimeStatus.Idle;
+        private PoseDataSourceType effectiveSourceType = PoseDataSourceType.SDK;
+        private string lastError = string.Empty;
+        private float lastFrameTime = -1f;
+        private long frameCount;
+        private int detectedPlayerCount;
 
-        // 统一事件转发
-        public event Action<PoseInferenceResult> OnResultReceived;
+        private static IPoseDataSourceFactory factoryOverride;
+        private readonly IPoseDataSourceFactory defaultFactory = new PoseDataSourceFactory();
+        private IPoseDataSource currentDataSource;
+        private bool isInitialized;
+
+        public event Action<PoseFrame20> OnFrame20Received;
         public event Action<string> OnError;
         public event Action OnConnected;
         public event Action OnDisconnected;
-
-        /// <summary>
-        /// 当前数据源实例
-        /// </summary>
-        public IPoseDataSource CurrentDataSource => currentDataSource;
-
-        /// <summary>
-        /// 当前数据源类型
-        /// </summary>
-
+        public event Action<PoseAPIRuntimeStatus> OnStatusChanged;
 
         public static PoseDataSourceManager Instance { get; private set; }
+
+        public IPoseDataSource CurrentDataSource => currentDataSource;
+        public PoseAPIRuntimeStatus Status => status;
+        public PoseDataSourceType EffectiveSourceType => effectiveSourceType;
+        public bool IsReceiving => currentDataSource != null && currentDataSource.IsRunning;
+        public bool IsConnected => currentDataSource != null && currentDataSource.IsConnected;
+        public string LastError => string.IsNullOrEmpty(lastError)
+            ? currentDataSource?.LastError ?? string.Empty
+            : lastError;
+        public float LastFrameTime => lastFrameTime;
+        public long FrameCount => frameCount;
+        public int DetectedPlayerCount => detectedPlayerCount;
+
+        private IPoseDataSourceFactory ActiveFactory => factoryOverride ?? defaultFactory;
 
         private void Awake()
         {
@@ -77,334 +68,347 @@ namespace PoseAI
             {
                 Instance = this;
             }
-            else
+            else if (Instance != this)
             {
                 Destroy(gameObject);
                 return;
             }
 
-            // 编译时自动切换：根据平台或宏定义自动选择数据源
-            if (enableBuildTimeSwitch)
-            {
-                PoseDataSourceType buildTimeType = GetBuildTimeDataSourceType();
-                if (buildTimeType != sourceType)
-                {
-                    Debug.Log($"PoseDataSourceManager: 编译时自动切换数据源: {sourceType} -> {buildTimeType}");
-                    sourceType = buildTimeType;
-                }
-            }
-
-            // 同步配置：确保外层sourceType和config.sourceType一致
-            SyncSourceType();
-        }
-
-        /// <summary>
-        /// 获取编译时数据源类型（根据平台或宏定义）
-        /// 优先级：Scripting Define Symbols > 平台判断 > 默认HTTP
-        /// </summary>
-        private PoseDataSourceType GetBuildTimeDataSourceType()
-        {
-            // 方式1：使用Scripting Define Symbols（最高优先级）
-            // 在 Unity Editor: Edit -> Project Settings -> Player -> Other Settings -> Scripting Define Symbols
-            // 添加 USE_SDK_DATA_SOURCE 或 USE_HTTP_DATA_SOURCE
-            #if USE_SDK_DATA_SOURCE
-                return PoseDataSourceType.SDK;
-            #elif USE_HTTP_DATA_SOURCE
-                return PoseDataSourceType.HTTP;
-            #endif
-
-            // 方式2：平台判断（Android平台且非编辑器环境，默认使用SDK）
-            #if UNITY_ANDROID && !UNITY_EDITOR
-                return PoseDataSourceType.SDK;
-            #else
-                // 方式3：默认使用HTTP（开发环境）
-                return PoseDataSourceType.HTTP;
-            #endif
-        }
-
-        /// <summary>
-        /// Inspector中值改变时调用，用于同步sourceType
-        /// </summary>
-        private void OnValidate()
-        {
-            // 当在Inspector中修改sourceType时，同步到config
-            if (config != null)
-            {
-                config.sourceType = sourceType;
-            }
-        }
-
-        /// <summary>
-        /// 同步sourceType：以外层sourceType为准，更新config.sourceType
-        /// </summary>
-        private void SyncSourceType()
-        {
-            if (config != null)
-            {
-                config.sourceType = sourceType;
-            }
+            effectiveSourceType = ResolveEffectiveSourceType(sourceType);
+            SetStatus(PoseAPIRuntimeStatus.Idle);
         }
 
         private void Start()
         {
-            InitializeDataSource();
+            if (autoStart)
+            {
+                StartReceiving();
+            }
         }
 
-        /// <summary>
-        /// 初始化数据源
-        /// </summary>
+        /// <summary>只创建并配置当前平台的数据源，不启动设备或接收循环。</summary>
+        public bool EnsureDataSourceCreated()
+        {
+            if (IsDataSourceAlive(currentDataSource))
+            {
+                return true;
+            }
+
+            currentDataSource = null;
+            isInitialized = false;
+            effectiveSourceType = ResolveEffectiveSourceType(sourceType);
+
+            if (factoryOverride == null && !IsSourceSupported(effectiveSourceType))
+            {
+                SetFailure(
+                    $"当前平台不支持数据源 {effectiveSourceType}",
+                    PoseAPIRuntimeStatus.Unsupported);
+                return false;
+            }
+
+            if (config == null)
+            {
+                config = new PoseDataSourceConfig();
+            }
+
+            if (!config.Validate(effectiveSourceType))
+            {
+                SetFailure($"数据源 {effectiveSourceType} 的配置无效", PoseAPIRuntimeStatus.Error);
+                return false;
+            }
+
+            SetStatus(PoseAPIRuntimeStatus.Initializing);
+            try
+            {
+                currentDataSource = ActiveFactory.Create(effectiveSourceType, config, transform);
+                if (currentDataSource == null)
+                {
+                    throw new InvalidOperationException($"无法创建数据源 {effectiveSourceType}");
+                }
+
+                SubscribeToDataSourceEvents(currentDataSource);
+                isInitialized = true;
+                SetStatus(PoseAPIRuntimeStatus.Idle);
+                return true;
+            }
+            catch (Exception exception)
+            {
+                StopAndDestroyDataSource();
+                SetFailure($"创建数据源失败: {exception.Message}", PoseAPIRuntimeStatus.Error);
+                return false;
+            }
+        }
+
+        /// <summary>兼容旧调用；现在只确保数据源已创建，不再隐式启动。</summary>
         public void InitializeDataSource()
         {
-            // 如果数据源已存在，且对象未被销毁，不需要重新初始化
-            if (currentDataSource != null)
-            {
-                if (currentDataSource is MonoBehaviour mb && mb != null)
-                {
-                    return;
-                }
-                // 如果 mb 为 null 说明对象被销毁了，但引用还在，重置它
-                currentDataSource = null;
-                isInitialized = false;
-            }
-
-            // 如果已初始化但数据源为null，说明之前的初始化可能失败或被销毁，允许重新初始化
-            if (isInitialized && currentDataSource == null)
-            {
-                Debug.LogWarning("PoseDataSourceManager: 数据源当前为null，尝试重新初始化...");
-                isInitialized = false;
-            }
-
-            CreateAndStartDataSource(sourceType);
-            isInitialized = (currentDataSource != null);
+            EnsureDataSourceCreated();
         }
 
-        /// <summary>
-        /// 切换数据源
-        /// </summary>
-        /// <param name="type">目标数据源类型</param>
+        /// <summary>显式启动当前数据源；重复调用不会重复启动或订阅。</summary>
+        public void StartReceiving()
+        {
+            if (IsReceiving)
+            {
+                SetStatus(PoseAPIRuntimeStatus.Running);
+                return;
+            }
+
+            if (!EnsureDataSourceCreated())
+            {
+                return;
+            }
+
+            lastError = string.Empty;
+            SetStatus(PoseAPIRuntimeStatus.Initializing);
+            try
+            {
+                currentDataSource.Start();
+                if (currentDataSource.IsRunning)
+                {
+                    SetStatus(PoseAPIRuntimeStatus.Running);
+                }
+                else if (!string.IsNullOrEmpty(currentDataSource.LastError))
+                {
+                    SetFailure(currentDataSource.LastError, PoseAPIRuntimeStatus.Error);
+                }
+            }
+            catch (Exception exception)
+            {
+                SetFailure($"启动数据源失败: {exception.Message}", PoseAPIRuntimeStatus.Error);
+                StopAndDestroyDataSource();
+            }
+        }
+
+        /// <summary>停止并释放当前数据源，使下一次启动从干净状态重新创建。</summary>
+        public void StopReceiving()
+        {
+            StopAndDestroyDataSource();
+            SetStatus(PoseAPIRuntimeStatus.Stopped);
+        }
+
+        /// <summary>清理失败实例并重新创建、启动当前选择的数据源。</summary>
+        public void Retry()
+        {
+            StopAndDestroyDataSource();
+            ResetRuntimeMetrics();
+            StartReceiving();
+        }
+
+        /// <summary>切换数据源；正在接收时会自动启动新数据源，否则只完成创建。</summary>
         public void SwitchDataSource(PoseDataSourceType type)
         {
             if (!allowRuntimeSwitch && isInitialized)
             {
-                Debug.LogWarning("PoseDataSourceManager: 运行时切换已禁用");
+                Debug.LogWarning("PoseDataSourceManager: 运行时切换已禁用", this);
                 return;
             }
 
-            if (currentDataSource != null && sourceType == type)
+            bool wasActive = status == PoseAPIRuntimeStatus.Initializing || IsReceiving;
+            if (isInitialized && sourceType == type)
             {
-                Debug.LogWarning($"PoseDataSourceManager: 数据源类型未变化 ({type})");
+                Debug.LogWarning($"PoseDataSourceManager: 数据源类型未变化 ({type})", this);
                 return;
             }
 
-            // 停止并清理旧数据源
-            if (currentDataSource != null)
-            {
-                StopAndDestroyDataSource();
-            }
-
-            // 创建并启动新数据源
+            StopAndDestroyDataSource();
             sourceType = type;
-            SyncSourceType(); // 同步到config
-            CreateAndStartDataSource(type);
+            effectiveSourceType = ResolveEffectiveSourceType(type);
+            ResetRuntimeMetrics();
+
+            if (wasActive)
+            {
+                StartReceiving();
+            }
+            else
+            {
+                EnsureDataSourceCreated();
+            }
         }
 
-        /// <summary>
-        /// 创建并启动数据源
-        /// </summary>
-        private void CreateAndStartDataSource(PoseDataSourceType type)
+        internal static IDisposable OverrideFactoryForTests(IPoseDataSourceFactory factory)
         {
-            try
+            if (factory == null)
             {
-                // 创建数据源实例
-                currentDataSource = CreateDataSource(type);
-
-                if (currentDataSource == null)
-                {
-                    throw new Exception($"无法创建数据源类型: {type}");
-                }
-
-                // 订阅事件
-                SubscribeToDataSourceEvents(currentDataSource);
-
-                // 启动数据源
-                currentDataSource.Start();
-
-                Debug.Log($"PoseDataSourceManager: 已创建并启动数据源类型: {type}");
+                throw new ArgumentNullException(nameof(factory));
             }
-            catch (Exception e)
-            {
-                string error = $"创建数据源失败: {e.Message}";
-                Debug.LogError($"PoseDataSourceManager: {error}");
-                OnError?.Invoke(error);
-                currentDataSource = null;
-            }
+
+            IPoseDataSourceFactory previous = factoryOverride;
+            factoryOverride = factory;
+            return new FactoryOverrideScope(previous);
         }
 
-        /// <summary>
-        /// 创建数据源实例
-        /// </summary>
-        private IPoseDataSource CreateDataSource(PoseDataSourceType type)
+        internal static PoseDataSourceType ResolveEffectiveSourceType(PoseDataSourceType requestedType)
         {
-            GameObject dataSourceObject = new GameObject($"PoseDataSource_{type}");
-            dataSourceObject.transform.SetParent(transform);
-
-            IPoseDataSource dataSource = null;
-
-            switch (type)
-            {
-                case PoseDataSourceType.HTTP:
-                    var httpClient = dataSourceObject.AddComponent<PoseDataClientHTTP>();
-                    if (config != null)
-                    {
-                        httpClient.apiBaseUrl = config.httpApiUrl;
-                        httpClient.pollFPS = config.pollFPS;
-                        httpClient.timeout = config.timeout;
-                    }
-                    dataSource = httpClient;
-                    break;
-
-                case PoseDataSourceType.SDK:
-                    var sdkClient = dataSourceObject.AddComponent<PoseDataClientSDK>();
-                    if (config != null)
-                    {
-                        sdkClient.pollInterval = config.sdkPollInterval;
-                        sdkClient.useCallback = config.sdkUseCallback;
-                        // 使用 SdkMaxSkeletons 属性，自动与 playerMode 同步
-                        sdkClient.maxSkeletons = config.SdkMaxSkeletons;
-                    }
-                    dataSource = sdkClient;
-                    break;
-
-                default:
-                    throw new ArgumentException($"不支持的数据源类型: {type}");
-            }
-
-            return dataSource;
+#if (UNITY_ANDROID && !UNITY_EDITOR) || UNITY_EDITOR_WIN
+            return PoseDataSourceType.SDK;
+#else
+            return requestedType;
+#endif
         }
 
-        /// <summary>
-        /// 订阅数据源事件
-        /// </summary>
+        internal static bool IsSourceSupported(PoseDataSourceType type)
+        {
+#if (UNITY_ANDROID && !UNITY_EDITOR) || UNITY_EDITOR_WIN
+            return type == PoseDataSourceType.SDK;
+#elif UNITY_STANDALONE_OSX || UNITY_EDITOR_OSX
+            return type == PoseDataSourceType.MacLocalYolo;
+#else
+            return false;
+#endif
+        }
+
         private void SubscribeToDataSourceEvents(IPoseDataSource dataSource)
         {
-            if (dataSource == null) return;
-
-            dataSource.OnResultReceived += HandleResultReceived;
+            dataSource.OnFrame20Received += HandleFrame20Received;
             dataSource.OnError += HandleError;
             dataSource.OnConnected += HandleConnected;
             dataSource.OnDisconnected += HandleDisconnected;
         }
 
-        /// <summary>
-        /// 取消订阅数据源事件
-        /// </summary>
         private void UnsubscribeFromDataSourceEvents(IPoseDataSource dataSource)
         {
-            if (dataSource == null) return;
-
-            dataSource.OnResultReceived -= HandleResultReceived;
+            dataSource.OnFrame20Received -= HandleFrame20Received;
             dataSource.OnError -= HandleError;
             dataSource.OnConnected -= HandleConnected;
             dataSource.OnDisconnected -= HandleDisconnected;
         }
 
-        /// <summary>
-        /// 停止并销毁数据源
-        /// </summary>
         private void StopAndDestroyDataSource()
-        {
-            if (currentDataSource == null) return;
-
-            // 取消订阅事件
-            UnsubscribeFromDataSourceEvents(currentDataSource);
-
-            // 停止数据源
-            try
-            {
-                currentDataSource.Stop();
-            }
-            catch (Exception e)
-            {
-                Debug.LogError($"PoseDataSourceManager: 停止数据源失败: {e.Message}");
-            }
-
-            // 销毁GameObject
-            if (currentDataSource is MonoBehaviour mb)
-            {
-                if (mb != null && mb.gameObject != null)
-                {
-                    Destroy(mb.gameObject);
-                }
-            }
-
-            currentDataSource = null;
-        }
-
-        /// <summary>
-        /// 开始接收数据
-        /// </summary>
-        public void StartReceiving()
         {
             if (currentDataSource == null)
             {
-                Debug.LogWarning("PoseDataSourceManager: 数据源未初始化，正在初始化...");
-                InitializeDataSource();
-                
-                // 初始化后再次检查
-                if (currentDataSource == null)
-                {
-                    Debug.LogError("PoseDataSourceManager: 数据源初始化失败，无法开始接收数据");
-                    return;
-                }
+                isInitialized = false;
+                return;
             }
 
-            if (!currentDataSource.IsRunning)
+            IPoseDataSource sourceToDestroy = currentDataSource;
+            currentDataSource = null;
+            isInitialized = false;
+            UnsubscribeFromDataSourceEvents(sourceToDestroy);
+
+            try
             {
-                currentDataSource.Start();
+                sourceToDestroy.Stop();
+            }
+            catch (Exception exception)
+            {
+                Debug.LogError($"PoseDataSourceManager: 停止数据源失败: {exception.Message}", this);
+            }
+
+            if (sourceToDestroy is MonoBehaviour behaviour && behaviour != null)
+            {
+                Destroy(behaviour.gameObject);
             }
         }
 
-        /// <summary>
-        /// 停止接收数据
-        /// </summary>
-        public void StopReceiving()
+        private void HandleFrame20Received(PoseFrame20 frame)
         {
-            if (currentDataSource != null && currentDataSource.IsRunning)
-            {
-                currentDataSource.Stop();
-            }
-        }
-
-        // 事件处理（转发给上层组件）
-        private void HandleResultReceived(PoseInferenceResult result)
-        {
-            OnResultReceived?.Invoke(result);
+            frameCount++;
+            lastFrameTime = Time.unscaledTime;
+            detectedPlayerCount = frame?.skeletons.Count ?? 0;
+            lastError = string.Empty;
+            SetStatus(PoseAPIRuntimeStatus.Running);
+            OnFrame20Received?.Invoke(frame);
         }
 
         private void HandleError(string error)
         {
-            OnError?.Invoke(error);
+            SetFailure(error, PoseAPIRuntimeStatus.Error);
         }
 
         private void HandleConnected()
         {
+            lastError = string.Empty;
+            SetStatus(PoseAPIRuntimeStatus.Running);
             OnConnected?.Invoke();
         }
 
         private void HandleDisconnected()
         {
+            if (status != PoseAPIRuntimeStatus.Error &&
+                status != PoseAPIRuntimeStatus.Unsupported)
+            {
+                SetStatus(PoseAPIRuntimeStatus.Stopped);
+            }
+
             OnDisconnected?.Invoke();
+        }
+
+        private void SetFailure(string error, PoseAPIRuntimeStatus failureStatus)
+        {
+            lastError = string.IsNullOrWhiteSpace(error) ? "Pose API 发生未知错误" : error;
+            SetStatus(failureStatus);
+            Debug.LogError($"PoseDataSourceManager: {lastError}", this);
+            OnError?.Invoke(lastError);
+        }
+
+        private void SetStatus(PoseAPIRuntimeStatus nextStatus)
+        {
+            if (status == nextStatus)
+            {
+                return;
+            }
+
+            status = nextStatus;
+            OnStatusChanged?.Invoke(status);
+        }
+
+        private void ResetRuntimeMetrics()
+        {
+            lastError = string.Empty;
+            lastFrameTime = -1f;
+            frameCount = 0;
+            detectedPlayerCount = 0;
+            SetStatus(PoseAPIRuntimeStatus.Idle);
+        }
+
+        private static bool IsDataSourceAlive(IPoseDataSource dataSource)
+        {
+            if (dataSource == null)
+            {
+                return false;
+            }
+
+            return !(dataSource is MonoBehaviour behaviour) || behaviour != null;
         }
 
         private void OnDestroy()
         {
             StopAndDestroyDataSource();
+            if (Instance == this)
+            {
+                Instance = null;
+            }
         }
 
-        // 公共属性访问
-        public bool IsReceiving => currentDataSource != null && currentDataSource.IsRunning;
-        public bool IsConnected => currentDataSource != null && currentDataSource.IsConnected;
-        public string LastError => currentDataSource?.LastError ?? "";
+        /// <summary>
+        /// 测试工厂作用域负责在用例结束时恢复生产 factory。
+        ///
+        /// 职责：
+        /// - 保存进入测试前的 factory。
+        /// - Dispose 时只恢复一次，避免跨用例污染。
+        /// </summary>
+        private sealed class FactoryOverrideScope : IDisposable
+        {
+            private readonly IPoseDataSourceFactory previous;
+            private bool disposed;
+
+            public FactoryOverrideScope(IPoseDataSourceFactory previous)
+            {
+                this.previous = previous;
+            }
+
+            public void Dispose()
+            {
+                if (disposed)
+                {
+                    return;
+                }
+
+                disposed = true;
+                factoryOverride = previous;
+            }
+        }
     }
 }
-

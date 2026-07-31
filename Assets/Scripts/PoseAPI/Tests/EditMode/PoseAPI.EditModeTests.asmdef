@@ -1,0 +1,22 @@
+{
+    "name": "PoseAPI.EditModeTests",
+    "rootNamespace": "PoseAI.Tests.EditMode",
+    "references": [
+        "GUID:7e575b028d58a6f41931fe0f5003f336",
+        "PoseAPI.Editor"
+    ],
+    "optionalUnityReferences": [
+        "TestAssemblies"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": false,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
