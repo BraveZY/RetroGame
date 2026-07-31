@@ -126,6 +126,7 @@ public class GameResManager : MonoBehaviour
         Bowling_Main = 127,  // 保龄球大厅
         Basketball_Main = 128, // 篮球
         FootBall_End = 129, // 篮球
+        MotionDodgeball_Main = 130, // 丢沙包
     }
 
     /// <summary>
