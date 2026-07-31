@@ -1,0 +1,3 @@
+interface:
+  display_name: "Unity System Design"
+  short_description: "Design practical Unity system boundaries, interfaces, adapters, state ownership, and test seams before implementation."

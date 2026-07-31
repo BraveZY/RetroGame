@@ -1,0 +1,3 @@
+interface:
+  display_name: "Game Context Handoff"
+  short_description: "Compress current game-development context for a future agent session."

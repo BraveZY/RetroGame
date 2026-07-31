@@ -1,0 +1,3 @@
+interface:
+  display_name: "Game Design Document"
+  short_description: "Turn a clarified game idea into a lightweight actionable GDD."

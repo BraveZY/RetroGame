@@ -1,0 +1,3 @@
+interface:
+  display_name: "Game Feature Iteration"
+  short_description: "Choose downstream workflows for existing-game feature deltas, stabilization, hotfixes, and regression scope."

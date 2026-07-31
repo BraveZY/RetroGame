@@ -1,0 +1,3 @@
+interface:
+  display_name: "Game Accessibility And Localization Check"
+  short_description: "Check accessibility, localization, readability, input adaptation, language expansion, and release-language risks."

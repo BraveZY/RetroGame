@@ -1,0 +1,117 @@
+{
+  "package": "game-dev-skills",
+  "version": "0.1.9",
+  "agent": "codex",
+  "scope": "project",
+  "installedAt": "2026-07-31T04:48:22.039Z",
+  "skills": [
+    {
+      "id": "game-accessibility-localization-check",
+      "path": "skills/game-accessibility-localization-check/SKILL.md"
+    },
+    {
+      "id": "game-art-audio-pipeline",
+      "path": "skills/game-art-audio-pipeline/SKILL.md"
+    },
+    {
+      "id": "game-brainstorm",
+      "path": "skills/game-brainstorm/SKILL.md"
+    },
+    {
+      "id": "game-brief",
+      "path": "skills/game-brief/SKILL.md"
+    },
+    {
+      "id": "game-captain",
+      "path": "skills/game-captain/SKILL.md"
+    },
+    {
+      "id": "game-design-grilling",
+      "path": "skills/game-design-grilling/SKILL.md"
+    },
+    {
+      "id": "game-domain-modeling",
+      "path": "skills/game-domain-modeling/SKILL.md"
+    },
+    {
+      "id": "game-economy-progression-design",
+      "path": "skills/game-economy-progression-design/SKILL.md"
+    },
+    {
+      "id": "game-feature-iteration",
+      "path": "skills/game-feature-iteration/SKILL.md"
+    },
+    {
+      "id": "game-feature-slicer",
+      "path": "skills/game-feature-slicer/SKILL.md"
+    },
+    {
+      "id": "game-gdd",
+      "path": "skills/game-gdd/SKILL.md"
+    },
+    {
+      "id": "game-handoff-game-context",
+      "path": "skills/game-handoff-game-context/SKILL.md"
+    },
+    {
+      "id": "game-level-content-design",
+      "path": "skills/game-level-content-design/SKILL.md"
+    },
+    {
+      "id": "game-onboarding-tutorial-design",
+      "path": "skills/game-onboarding-tutorial-design/SKILL.md"
+    },
+    {
+      "id": "game-performance-build",
+      "path": "skills/game-performance-build/SKILL.md"
+    },
+    {
+      "id": "game-playtest-ux-evaluation",
+      "path": "skills/game-playtest-ux-evaluation/SKILL.md"
+    },
+    {
+      "id": "game-qa-debug",
+      "path": "skills/game-qa-debug/SKILL.md"
+    },
+    {
+      "id": "game-release-liveops",
+      "path": "skills/game-release-liveops/SKILL.md"
+    },
+    {
+      "id": "game-research",
+      "path": "skills/game-research/SKILL.md"
+    },
+    {
+      "id": "game-setup-game-dev-skills",
+      "path": "skills/game-setup-game-dev-skills/SKILL.md"
+    },
+    {
+      "id": "game-task-triage",
+      "path": "skills/game-task-triage/SKILL.md"
+    },
+    {
+      "id": "game-ui-hud-flow-design",
+      "path": "skills/game-ui-hud-flow-design/SKILL.md"
+    },
+    {
+      "id": "game-unity-architecture-audit",
+      "path": "skills/game-unity-architecture-audit/SKILL.md"
+    },
+    {
+      "id": "game-unity-code-review",
+      "path": "skills/game-unity-code-review/SKILL.md"
+    },
+    {
+      "id": "game-unity-implementation",
+      "path": "skills/game-unity-implementation/SKILL.md"
+    },
+    {
+      "id": "game-unity-system-design",
+      "path": "skills/game-unity-system-design/SKILL.md"
+    },
+    {
+      "id": "gameplay-balance-tuning",
+      "path": "skills/gameplay-balance-tuning/SKILL.md"
+    }
+  ]
+}

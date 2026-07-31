@@ -1,0 +1,3 @@
+interface:
+  display_name: "Gameplay Balance Tuning"
+  short_description: "Tune gameplay values, difficulty curves, fairness, economy, rewards, hit detection, and pacing."

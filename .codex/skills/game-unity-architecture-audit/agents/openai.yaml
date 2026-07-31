@@ -1,0 +1,3 @@
+interface:
+  display_name: "Unity Architecture Audit"
+  short_description: "Audit Unity architecture, module boundaries, scene/Prefab coupling, test seams, resources, and maintainability risks."

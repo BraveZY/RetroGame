@@ -1,0 +1,3 @@
+interface:
+  display_name: "Game Dev Skill Setup"
+  short_description: "Initialize project-local game-development agent conventions for engine, docs, tasks, assets, and builds."

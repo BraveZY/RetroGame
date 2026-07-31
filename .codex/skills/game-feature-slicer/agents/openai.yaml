@@ -1,0 +1,3 @@
+interface:
+  display_name: "Game Feature Slicer"
+  short_description: "Slice GDDs, feature specs, or version goals into verifiable game feature tasks."

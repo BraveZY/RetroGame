@@ -1,0 +1,3 @@
+interface:
+  display_name: "Game Release And LiveOps"
+  short_description: "Prepare release notes, store assets, platform checks, SDKs, remote config, and liveops handoff."

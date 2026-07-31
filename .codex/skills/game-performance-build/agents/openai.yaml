@@ -1,0 +1,3 @@
+interface:
+  display_name: "Game Performance And Build"
+  short_description: "Check game performance, memory, package size, loading, build failures, and platform readiness."

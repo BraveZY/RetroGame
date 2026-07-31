@@ -1,0 +1,3 @@
+interface:
+  display_name: "Game QA And Debugging"
+  short_description: "Diagnose game bugs, regressions, build failures, performance issues, intermittent issues, and device differences."

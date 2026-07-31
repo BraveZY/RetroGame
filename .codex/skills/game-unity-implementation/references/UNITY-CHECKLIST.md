@@ -1,0 +1,36 @@
+# Unity Implementation Checklist
+
+- Has `game-design/<game-slug>/agents/*.md` been read?
+- Has the current mini-game's `game-design/<game-slug>/GAME_CONTEXT.md` been read?
+- If the current task references a parent epic, has `00-epic.md` been read?
+- Is the user input a single task, `00-epic.md`, or an entire task directory? If it is a directory/epic, have all subtasks been enumerated?
+- If only part of a directory is being executed, has this turn's boundary been made explicit instead of defaulting to the first file?
+- Has the current slice scope, dependencies, acceptance criteria, and explicit non-goals been confirmed?
+- For an existing project, have the change type, added/changed scope, existing behaviors that do not change, and regression scope been listed?
+- Has it been confirmed which old gameplay, old UI, input, levels, configuration, saves, scenes, Prefabs, or asset references the change affects?
+- Have the feature items under the current subtask's "features to implement" section been listed?
+- Have the related acceptance items from the current subtask and parent `00-epic.md` been listed?
+- Can every completed feature item trace to a code, scene, Prefab, asset, or configuration change?
+- Does every acceptance item have a corresponding evidence type: UnityCaptain, compile, test, scene state, screenshot/recording, device, or manual flow?
+- Does every regression check have a corresponding evidence type, or a clear reason why it cannot be verified?
+- Has the feedback method been chosen based on the change type instead of defaulting everything to TDD?
+- Does rule logic or a state machine have a test seam? If yes, was it tested first?
+- Are scene, Prefab, HUD, asset, game-feel, or device behavior validated through Unity, manual, or device evidence?
+- Do scene/HUD/Prefab changes have UnityCaptain screenshot, hierarchy, or component readback evidence?
+- Are screenshots readable, unobstructed, and clearly grouped by object? If not, has the work been revised?
+- Is gameplay behavior checked item-by-item against "player-visible results" and acceptance criteria? Do not only verify that result objects exist; verify source objects, action feedback, spawn positions, and causality.
+- Have completed feature items in task Markdown been synchronized from `[ ]` to `[x]`?
+- Have passed acceptance items in task Markdown been synchronized from `[ ]` to `[x]`?
+- Do unverified or partially passed acceptance items remain `[ ]` and appear in the summary?
+- Do unverified or partially passed regression items remain `[ ]` and appear in the summary?
+- Is parent `00-epic.md` status or overall acceptance updated only when subtask evidence is sufficient?
+- Do changes follow existing folder and namespace conventions?
+- Were opportunistic refactors, global-state migrations, or asset-reference migrations unrelated to the current task avoided?
+- Are MonoBehaviour lifecycle methods used for a clear reason?
+- Is expensive logic avoided in `Update`?
+- Are serialized fields clearly named and reasonably scoped?
+- Is ScriptableObject used as configuration instead of accidental globally mutable runtime state?
+- Does the summary explain scene, Prefab, and asset impact?
+- Does the summary explain old behavior protection, regression verification, and compatibility/migration impact?
+- Is there a verification path: compile, tests, scene playtest, or manual checklist?
+- When UnityCaptain is available, was `unity-captain-skill-index` used to obtain Unity Editor evidence or verification results?

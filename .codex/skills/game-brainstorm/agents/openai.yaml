@@ -1,0 +1,4 @@
+interface:
+  display_name: "Game Brainstorming"
+  short_description: "Brainstorm grounded game concepts and playable micro-innovations."
+  default_prompt: "Use $game-brainstorm to explore distinct gameplay directions and micro-innovations from this player, context, input, theme, or rough mechanic."

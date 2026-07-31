@@ -1,0 +1,3 @@
+interface:
+  display_name: "Unity Feature Implementation"
+  short_description: "Implement Unity features from confirmed tasks, GDDs, deltas, or vertical slices while protecting existing behavior."

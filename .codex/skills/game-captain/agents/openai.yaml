@@ -1,0 +1,3 @@
+interface:
+  display_name: "Game Development Captain"
+  short_description: "Route game-development requests to the right downstream skill flow."

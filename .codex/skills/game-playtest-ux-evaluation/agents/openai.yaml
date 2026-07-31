@@ -1,0 +1,3 @@
+interface:
+  display_name: "Game Playtest UX Evaluation"
+  short_description: "Evaluate playable builds for goal understanding, controls, feedback clarity, HUD readability, pacing, and fun."

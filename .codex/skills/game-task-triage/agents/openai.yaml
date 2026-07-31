@@ -1,0 +1,3 @@
+interface:
+  display_name: "Game Task Triage"
+  short_description: "Triage task maturity, impact, dependencies, resources, research, device validation, and blockers before implementation."

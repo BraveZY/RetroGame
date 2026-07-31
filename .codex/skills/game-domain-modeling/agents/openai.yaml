@@ -1,0 +1,3 @@
+interface:
+  display_name: "Game Domain Modeling"
+  short_description: "Maintain game domain language, system boundaries, naming, and design decisions."
